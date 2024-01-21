@@ -28,6 +28,17 @@ public class Item {
 
         this.total = 0.0;
         gabinete.aplicarAcabamentos();
+//
+//        if (gabinete.fechamento().isPresent()) {
+//
+//            gabinete.fechamento().get().getMateriasPrima().forEach(materiaPrima -> {
+//                var precificar = new Precificar(materiaPrima, );
+//                var descricao = materiaPrima.getDescricao() + " - "
+//                        + materiaPrima.getCor();
+//                var subItem = new SubItem(descricao, 1.0, materiaPrima.getPreco(), precificar.getValorTotal());
+//                this.subItens.add(subItem);
+//            });
+//        }
 
         gabinete.ferragens().forEach((ferragem, quantidade) -> {
             var precificar = new Precificar(ferragem, quantidade);
@@ -64,6 +75,9 @@ public class Item {
         descricao.append(gabinete.descricao()).append("\n");
         descricao.append("====================================================================").append("\n");
         descricao.append("Componentes: ").append("\n");
+        gabinete.fechamento().ifPresent(fechamento -> {
+            descricao.append(fechamento.getDescricao()).append("\n");
+        });
         gabinete.caixa().componentes().forEach(componente -> {
             descricao.append(componente.getDescricao()).append("\n");
         });

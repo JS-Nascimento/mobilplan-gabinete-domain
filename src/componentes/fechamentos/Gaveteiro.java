@@ -1,5 +1,6 @@
 package componentes.fechamentos;
 
+import componentes.AbstractComponente;
 import estrategias.EstrategiaDePrecificacao;
 import materiaPrima.MateriaPrima;
 import materiaPrima.acabamento.Acabamento;
@@ -12,7 +13,7 @@ import estrategias.EstrategiaDeConstrucao;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Gaveteiro implements Estrutural {
+public class Gaveteiro extends AbstractComponente {
     private final int quantidadeDeGavetas;
     private final FolgasGavetas folgaDasGavetas;
     private final List<Double> alturasDasGavetas;
@@ -23,6 +24,7 @@ public class Gaveteiro implements Estrutural {
 
 
     public Gaveteiro(int quantidadeDeGavetas, FolgasGavetas folgaDasGavetas, List<Double> alturasDasGavetas) {
+        super(null);
         this.quantidadeDeGavetas = quantidadeDeGavetas;
         this.folgaDasGavetas = folgaDasGavetas;
         this.alturasDasGavetas = alturasDasGavetas;
@@ -51,53 +53,8 @@ public class Gaveteiro implements Estrutural {
         }
     }
 
-    @Override
-    public void calcularAcabamentos(EstrategiaDePrecificacao precificacao) {
-
-    }
-
-    @Override
-    public void adicionarAcabamentos(List<MateriaPrima> materiaPrimas) {
-
-    }
-
-    @Override
-    public String getDescricao() {
-        return descricao;
-    }
-
-    @Override
-    public String getPrecificacao() {
-        return null;
-    }
-
-    @Override
-    public void setPrecificacao(String precificacao) {
-
-    }
-
-    @Override
-    public double getArea() {
-        return 0;
-    }
-
     public List<Gaveta> getGavetas() {
         return gavetas;
-    }
-
-    @Override
-    public double getMetragemLinear() {
-        return 0;
-    }
-
-    @Override
-    public List<MateriaPrima> getMateriasPrima() {
-        return null;
-    }
-
-    @Override
-    public PadraoDeFitagem getPadraoDeFitagem() {
-        return padraoDeFitagem;
     }
 }
 

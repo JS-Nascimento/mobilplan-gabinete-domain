@@ -1,6 +1,7 @@
 package componentes.estruturais;
 
 
+import componentes.AbstractComponente;
 import estrategias.EstrategiaDePrecificacao;
 import materiaPrima.MateriaPrima;
 import materiaPrima.acabamento.Acabamento;
@@ -12,22 +13,16 @@ import estrategias.EstrategiaDeConstrucao;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Gaveta implements Estrutural {
+public class Gaveta extends AbstractComponente {
     private final List<Estrutural> componentesEstruturais;
     private final FolgasGavetas folgas;
-    private final double altura;
-    private double largura;
-    private double profundidade;
-    private final String descricao;
-    private final double espessura;
-    private double metragemFita;
-    private final PadraoDeFitagem padraoDeFitagem;
 
     public Gaveta(Dimensoes dimensoesGabinete, FolgasGavetas folgas, double altura) {
+
+        super(folgas.padraoDeFitagem());
         this.folgas = folgas;
         this.altura = altura;
         this.espessura =  folgas.espessuraCorpo();
-        this.padraoDeFitagem = folgas.padraoDeFitagem();
         this.componentesEstruturais = new ArrayList<>();
 
         this.componentesEstruturais.add(new FundoGaveta(folgas, PadraoDeFitagem.NENHUM));
@@ -50,17 +45,6 @@ public class Gaveta implements Estrutural {
             componente.aceitar(estrategia, dimensoes);
         }
     }
-
-    @Override
-    public void calcularAcabamentos(EstrategiaDePrecificacao precificacao) {
-
-    }
-
-    @Override
-    public void adicionarAcabamentos(List<MateriaPrima> materiaPrimas) {
-
-    }
-
     public void setDimensoes(double altura, double largura, double profundidade, double espessura,
                              PadraoDeFitagem padraoDeFitagem) {
         this.largura = largura;
@@ -77,41 +61,6 @@ public class Gaveta implements Estrutural {
                     .append("\n");
         }
         return descricaoComponentes.toString();
-    }
-
-    @Override
-    public String getDescricao() {
-        return descricao;
-    }
-
-    @Override
-    public String getPrecificacao() {
-        return null;
-    }
-
-    @Override
-    public void setPrecificacao(String precificacao) {
-
-    }
-
-    @Override
-    public double getArea() {
-        return 0;
-    }
-
-    @Override
-    public double getMetragemLinear() {
-        return 0;
-    }
-
-    @Override
-    public List<MateriaPrima> getMateriasPrima() {
-        return null;
-    }
-
-    @Override
-    public PadraoDeFitagem getPadraoDeFitagem() {
-        return padraoDeFitagem;
     }
 }
 

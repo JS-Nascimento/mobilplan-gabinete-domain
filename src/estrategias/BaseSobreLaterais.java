@@ -44,17 +44,18 @@ class BaseSobreLaterais implements EstrategiaDeConstrucao {
     public void aplicarParaPorta(Porta porta, Dimensoes dimensoes,
                                  PadraoDeFitagem padraoDeFitagem, TipoPorta tipoPorta, Folgas folgas) {
 
-        if(tipoPorta == TipoPorta.PORTA_DUPLA){
-            double largura = (dimensoes.getLargura() - folgas.entreComponentes() - folgas.direita() - folgas.esquerda()) / 2;
+        if (tipoPorta == TipoPorta.PORTA_DUPLA) {
+            double largura =
+                    (dimensoes.getLargura() - folgas.entreComponentes() - folgas.direita() - folgas.esquerda()) / 2;
             double altura = dimensoes.getAltura() - folgas.superior() - folgas.inferior();
-            porta.setDimensoes(largura, altura, dimensoes.getEspessura(),  padraoDeFitagem);
+            porta.setDimensoes(largura, altura, dimensoes.getEspessura(), padraoDeFitagem);
             return;
         }
 
         double largura = dimensoes.getLargura() - folgas.direita() - folgas.esquerda();
         double altura = dimensoes.getAltura() - folgas.superior() - folgas.inferior();
 
-        porta.setDimensoes(largura, altura, dimensoes.getEspessura(),  padraoDeFitagem);
+        porta.setDimensoes(largura, altura, dimensoes.getEspessura(), padraoDeFitagem);
     }
 
 
@@ -73,51 +74,59 @@ class BaseSobreLaterais implements EstrategiaDeConstrucao {
     }
 
     @Override
-    public void aplicarParaFundoGaveta(FundoGaveta fundoGaveta, Dimensoes dimensoes, double espessura, PadraoDeFitagem padraoDeFitagem) {
+    public void aplicarParaFundoGaveta(FundoGaveta fundoGaveta, Dimensoes dimensoes, double espessura,
+                                       PadraoDeFitagem padraoDeFitagem) {
 
     }
+
     @Override
     public void aplicarParaLateralGaveta(LateralGaveta lateralGaveta, Dimensoes dimensoes,
                                          PadraoDeFitagem padraoDeFitagem) {
 
-        lateralGaveta.setDimensoes(lateralGaveta.getAltura(), lateralGaveta.getProfundidade(), lateralGaveta.getEspessura(), padraoDeFitagem);
+        lateralGaveta.setDimensoes(lateralGaveta.altura(), lateralGaveta.profundidade(), lateralGaveta.espessura(),
+                padraoDeFitagem);
     }
 
     @Override
     public void aplicarParaContraFrenteGaveta(ContraFrenteGaveta contraFrenteGaveta, Dimensoes dimensoes,
                                               PadraoDeFitagem padraoDeFitagem) {
 
-        var largura  = dimensoes.calcularDimensoesInternas().getLargura()
+        var largura = dimensoes.calcularDimensoesInternas().getLargura()
                 - contraFrenteGaveta.getFolgasGavetas().folgaTrilhos()
-                -(2 * contraFrenteGaveta.getFolgasGavetas().espessuraCorpo());
+                - (2 * contraFrenteGaveta.getFolgasGavetas().espessuraCorpo());
 
-        contraFrenteGaveta.setDimensoes(contraFrenteGaveta.getAltura() , largura, contraFrenteGaveta.getFolgasGavetas().espessuraCorpo()  , padraoDeFitagem);
+        contraFrenteGaveta.setDimensoes(contraFrenteGaveta.altura(), largura,
+                contraFrenteGaveta.getFolgasGavetas().espessuraCorpo(), padraoDeFitagem);
     }
 
     @Override
     public void aplicarParaTraseiroGaveta(TraseiroGaveta traseiroGaveta, Dimensoes dimensoes,
                                           PadraoDeFitagem padraoDeFitagem) {
-        var largura  = dimensoes.calcularDimensoesInternas().getLargura()
+        var largura = dimensoes.calcularDimensoesInternas().getLargura()
                 - traseiroGaveta.getFolgasGavetas().folgaTrilhos()
-                -(2 * traseiroGaveta.getFolgasGavetas().espessuraCorpo());
+                - (2 * traseiroGaveta.getFolgasGavetas().espessuraCorpo());
 
-        traseiroGaveta.setDimensoes(traseiroGaveta.getAltura() , largura, traseiroGaveta.getFolgasGavetas().espessuraCorpo()  , padraoDeFitagem);
+        traseiroGaveta.setDimensoes(traseiroGaveta.altura(), largura,
+                traseiroGaveta.getFolgasGavetas().espessuraCorpo(), padraoDeFitagem);
 
     }
+
     @Override
     public void aplicarParaFrenteGaveta(FrenteDeGaveta frenteDeGaveta, Dimensoes dimensoes,
                                         PadraoDeFitagem padraoDeFitagem) {
 
-        var largura = dimensoes.getLargura() - frenteDeGaveta.getFolgas().direita() - frenteDeGaveta.getFolgas().esquerda();
+        var largura =
+                dimensoes.getLargura() - frenteDeGaveta.getFolgas().direita() - frenteDeGaveta.getFolgas().esquerda();
 
         IntStream.range(0, frenteDeGaveta.getQuantidadeDeFrentes()).forEachOrdered(
                 i -> frenteDeGaveta.setDimensoes(largura, descontoAlturaFrente(frenteDeGaveta.getTipoFrente(), i),
-                        frenteDeGaveta.getEspessura(), frenteDeGaveta.getPadraoDeFitagem()));
+                        frenteDeGaveta.espessura(), frenteDeGaveta.getPadraoDeFitagem()));
 
     }
 
     @Override
-    public void aplicarParaFundo(Fundo fundo, Dimensoes dimensoes, double espessuraFundo, double valorVariavel, PadraoDeFitagem padraoDeFitagem) {
+    public void aplicarParaFundo(Fundo fundo, Dimensoes dimensoes, double espessuraFundo, double valorVariavel,
+                                 PadraoDeFitagem padraoDeFitagem) {
         double largura = 0;
         double altura = 0;
 

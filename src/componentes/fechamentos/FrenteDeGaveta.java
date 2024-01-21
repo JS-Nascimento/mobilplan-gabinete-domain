@@ -4,6 +4,7 @@ import static helpers.DescontosPadroes.verificaAlturaMinimaGaveta;
 import static helpers.FitaHelper.calcularMetragemFita;
 import static helpers.NumberHelper.roundDouble;
 
+import componentes.AbstractComponenteFechamento;
 import estrategias.EstrategiaDeConstrucao;
 import estrategias.EstrategiaDePrecificacao;
 import helpers.FitaHelper;
@@ -18,7 +19,7 @@ import componentes.PadraoDeFitagem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FrenteDeGaveta implements Fechamento {
+public class FrenteDeGaveta extends AbstractComponenteFechamento {
 
     private final Folgas folgas;
     private final FolgasGavetas folgasGavetas;
@@ -27,16 +28,8 @@ public class FrenteDeGaveta implements Fechamento {
     private List<Double> alturasFinalDasFrentes;
     private Gaveteiro gaveteiro;
     private final TipoFrente tipoFrente;
-    private final double espessura;
     private Dimensoes dimensoes;
-    private double largura;
-    private double profundidade;
-    private String descricao;
-    private double area;
-    private double metragemFita;
     private final List<String> descricoesFrentes = new ArrayList<>();
-
-    private final PadraoDeFitagem padraoDeFitagem;
 
     public FrenteDeGaveta(final Folgas folgas,
                           final TipoFrente tipoFrente,
@@ -44,13 +37,13 @@ public class FrenteDeGaveta implements Fechamento {
                           List<Double> alturasDasFrentes,
                           final FolgasGavetas folgasGavetas,
                           final PadraoDeFitagem padraoDeFitagem, double espessura) {
+        super(padraoDeFitagem);
         this.folgas = folgas;
         this.quantidadeDeFrentes = quantidadeDeFrentes;
         this.alturasDasFrentes = alturasDasFrentes;
         this.folgasGavetas = folgasGavetas;
         this.tipoFrente = tipoFrente;
         this.espessura = espessura;
-        this.padraoDeFitagem = padraoDeFitagem;
     }
 
     @Override
@@ -62,18 +55,9 @@ public class FrenteDeGaveta implements Fechamento {
         gaveteiro.aceitar(estrategia, dimensoes);
     }
 
-    @Override
-    public void calcularAcabamentos(EstrategiaDePrecificacao precificacao) {
-
-    }
-
-    @Override
-    public void adicionarAcabamentos(List<MateriaPrima> materiaPrimas) {
-
-    }
-
     public void setDimensoes(double largura, double profundidade, double espessura,  PadraoDeFitagem padraoDeFitagem) {
 
+        this.descricaoCurta = "com " + quantidadeDeFrentes + " gaveta(s)";
         this.largura = largura;
         this.profundidade = profundidade;
         this.area = (largura * profundidade) ;
@@ -96,38 +80,13 @@ public class FrenteDeGaveta implements Fechamento {
     public String getDescricao() {
         this.descricao = "";
         var gavetas = this.gaveteiro.getGavetas();
-        System.out.println(gavetas.size());
+
         descricoesFrentes.forEach(
                 frente -> this.descricao += frente + "\n"
                         + "Componentes: \n"
                         + gavetas.get(descricoesFrentes.indexOf(frente)).listarComponentes() + "\n"
         );
         return descricao;
-    }
-
-    @Override
-    public String getPrecificacao() {
-        return null;
-    }
-
-    @Override
-    public void setPrecificacao(String precificacao) {
-
-    }
-
-    @Override
-    public double getArea() {
-        return area;
-    }
-
-    @Override
-    public double getMetragemLinear() {
-        return metragemFita;
-    }
-
-    @Override
-    public List<MateriaPrima> getMateriasPrima() {
-        return null;
     }
 
     public Folgas getFolgas() {
@@ -146,32 +105,12 @@ public class FrenteDeGaveta implements Fechamento {
         return alturasFinalDasFrentes;
     }
 
-    public double getLargura() {
-        return largura;
-    }
-
-    public double getProfundidade() {
-        return profundidade;
-    }
-
     public TipoFrente getTipoFrente() {
         return tipoFrente;
     }
 
-    public double getEspessura() {
-        return espessura;
-    }
-
-    public double getMetragemFita() {
-        return metragemFita;
-    }
-
     public List<String> getDescricoesFrentes() {
         return descricoesFrentes;
-    }
-
-    public PadraoDeFitagem getPadraoDeFitagem() {
-        return padraoDeFitagem;
     }
 
     private String setDescricao(double area, double metragemFita, double largura, double profundidade) {
@@ -224,6 +163,4 @@ public class FrenteDeGaveta implements Fechamento {
         }
         return alturaFrentesCalculadas;
     }
-
-
 }

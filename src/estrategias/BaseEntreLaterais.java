@@ -3,7 +3,6 @@ package estrategias;
 import static helpers.DescontosPadroes.descontoAlturaFrente;
 
 import componentes.Dimensoes;
-import componentes.Estrutural;
 import componentes.Folgas;
 import componentes.PadraoDeFitagem;
 import componentes.estruturais.Base;
@@ -19,11 +18,8 @@ import componentes.estruturais.Travessa;
 import componentes.fechamentos.FrenteDeGaveta;
 import componentes.fechamentos.Porta;
 import componentes.fechamentos.TipoPorta;
-import java.util.List;
-import materiaPrima.MateriaPrima;
-import precificacao.Precificar;
 
-public class BaseEntreLaterais implements EstrategiaDeConstrucao, EstrategiaDePrecificacao {
+public class BaseEntreLaterais implements EstrategiaDeConstrucao{
 
     @Override
     public void aplicarParaBase(Base base, Dimensoes dimensoes, PadraoDeFitagem padraoDeFitagem) {
@@ -74,26 +70,25 @@ public class BaseEntreLaterais implements EstrategiaDeConstrucao, EstrategiaDePr
     public void aplicarParaFundoGaveta(FundoGaveta fundoGaveta, Dimensoes dimensoes,
                                        double espessura, PadraoDeFitagem padraoDeFitagem) {
 
-        double largura = 0;
-        double altura = 0;
-
-        switch (fundoGaveta.getFolgasGavetas().tipoFundo()) {
-            case SOBREPOSTO:
+        double largura;
+        double altura = switch (fundoGaveta.getFolgasGavetas().tipoFundo()) {
+            case SOBREPOSTO -> {
                 largura = dimensoes.calcularDimensoesInternas().getLargura()
                         - fundoGaveta.getFolgasGavetas().folgaTrilhos()
                         - (2 * fundoGaveta.getFolgasGavetas().espessuraCorpo());
-                altura = fundoGaveta.getFolgasGavetas().profundidadeGaveta();
-                break;
-            case ENCAIXADO:
+                yield fundoGaveta.getFolgasGavetas().profundidadeGaveta();
+            }
+            case ENCAIXADO -> {
                 largura = dimensoes.calcularDimensoesInternas().getLargura()
                         - fundoGaveta.getFolgasGavetas().folgaTrilhos()
                         - (2 * (fundoGaveta.getFolgasGavetas().espessuraCorpo()))
                         + (2 * fundoGaveta.getFolgasGavetas().rebaixoFundo());
-                altura = fundoGaveta.getFolgasGavetas().profundidadeGaveta()
+                yield fundoGaveta.getFolgasGavetas().profundidadeGaveta()
                         - (fundoGaveta.getFolgasGavetas().espessuraCorpo() -
                         fundoGaveta.getFolgasGavetas().rebaixoFundo());
-                break;
-        }
+            }
+        };
+
         fundoGaveta.setDimensoes(altura, largura, fundoGaveta.getFolgasGavetas().espessuraFundo(), padraoDeFitagem);
     }
 
@@ -101,8 +96,8 @@ public class BaseEntreLaterais implements EstrategiaDeConstrucao, EstrategiaDePr
     public void aplicarParaLateralGaveta(LateralGaveta lateralGaveta, Dimensoes dimensoes,
                                          PadraoDeFitagem padraoDeFitagem) {
 
-        lateralGaveta.setDimensoes(lateralGaveta.getAltura(), lateralGaveta.getProfundidade(),
-                lateralGaveta.getEspessura(), padraoDeFitagem);
+            lateralGaveta.setDimensoes(lateralGaveta.altura(), lateralGaveta.profundidade(),
+                lateralGaveta.espessura(), padraoDeFitagem);
     }
 
     @Override
@@ -113,7 +108,7 @@ public class BaseEntreLaterais implements EstrategiaDeConstrucao, EstrategiaDePr
                 - contraFrenteGaveta.getFolgasGavetas().folgaTrilhos()
                 - (2 * contraFrenteGaveta.getFolgasGavetas().espessuraCorpo());
 
-        contraFrenteGaveta.setDimensoes(contraFrenteGaveta.getAltura(), largura,
+        contraFrenteGaveta.setDimensoes(contraFrenteGaveta.altura(), largura,
                 contraFrenteGaveta.getFolgasGavetas().espessuraCorpo(), padraoDeFitagem);
     }
 
@@ -124,7 +119,7 @@ public class BaseEntreLaterais implements EstrategiaDeConstrucao, EstrategiaDePr
                 - traseiroGaveta.getFolgasGavetas().folgaTrilhos()
                 - (2 * traseiroGaveta.getFolgasGavetas().espessuraCorpo());
 
-        traseiroGaveta.setDimensoes(traseiroGaveta.getAltura(), largura,
+        traseiroGaveta.setDimensoes(traseiroGaveta.altura(), largura,
                 traseiroGaveta.getFolgasGavetas().espessuraCorpo(), padraoDeFitagem);
 
     }
@@ -139,7 +134,7 @@ public class BaseEntreLaterais implements EstrategiaDeConstrucao, EstrategiaDePr
         frenteDeGaveta.getAlturasDasFrentes().forEach(
                 frente -> frenteDeGaveta.setDimensoes(largura,
                         descontoAlturaFrente(frenteDeGaveta.getTipoFrente(), frente),
-                        frenteDeGaveta.getEspessura(), frenteDeGaveta.getPadraoDeFitagem()));
+                        frenteDeGaveta.espessura(), frenteDeGaveta.getPadraoDeFitagem()));
 
     }
 
@@ -152,36 +147,19 @@ public class BaseEntreLaterais implements EstrategiaDeConstrucao, EstrategiaDePr
     @Override
     public void aplicarParaFundo(Fundo fundo, Dimensoes dimensoes, double espessuraFundo, double valorVariavel,
                                  PadraoDeFitagem padraoDeFitagem) {
-        double largura = 0;
-        double altura = 0;
-
-        switch (fundo.getTipoFundo()) {
-            case SOBREPOSTO:
+        double largura;
+        double altura = switch (fundo.getTipoFundo()) {
+            case SOBREPOSTO -> {
                 largura = dimensoes.getLargura() - 2 * valorVariavel;
-                altura = dimensoes.getAltura() - 2 * valorVariavel;
-                break;
-            case ENCAIXADO:
+                yield dimensoes.getAltura() - 2 * valorVariavel;
+            }
+            case ENCAIXADO -> {
                 largura = (dimensoes.getLargura() - 2 * dimensoes.getEspessura()) + 2 * valorVariavel;
-                altura = (dimensoes.getAltura() - 2 * dimensoes.getEspessura()) + 2 * valorVariavel;
-                break;
-        }
+                yield (dimensoes.getAltura() - 2 * dimensoes.getEspessura()) + 2 * valorVariavel;
+            }
+        };
+
         fundo.setDimensoes(largura, altura, espessuraFundo, padraoDeFitagem);
     }
 
-    @Override
-    public void calcularPrecoEstrutural(Estrutural estrutural, List<MateriaPrima> materiaPrimas) {
-
-        StringBuilder descricao = new StringBuilder("\nAcabamentos:\n");
-
-        for (var materiaPrima : materiaPrimas){
-
-            var precificar = new Precificar(materiaPrima, estrutural.getArea());
-            descricao.append(materiaPrimas.indexOf(materiaPrima) + 1);
-            descricao.append(" - ");
-            descricao.append(precificar.getDescricao());
-            descricao.append("\n");
-        }
-        estrutural.setPrecificacao(descricao.toString());
-
-    }
 }
