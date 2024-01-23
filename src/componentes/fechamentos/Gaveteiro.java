@@ -1,12 +1,8 @@
 package componentes.fechamentos;
 
 import componentes.AbstractComponente;
-import estrategias.EstrategiaDePrecificacao;
-import materiaPrima.MateriaPrima;
-import materiaPrima.acabamento.Acabamento;
 import componentes.Dimensoes;
-import componentes.estruturais.Gaveta;
-import componentes.Estrutural;
+import componentes.estruturais.CorpoGaveta;
 import componentes.FolgasGavetas;
 import componentes.PadraoDeFitagem;
 import estrategias.EstrategiaDeConstrucao;
@@ -19,7 +15,7 @@ public class Gaveteiro extends AbstractComponente {
     private final List<Double> alturasDasGavetas;
     private PadraoDeFitagem padraoDeFitagem;
     private double espessura;
-    private final List<Gaveta> gavetas;
+    private final List<CorpoGaveta> corpoGavetas;
     private final String descricao;
 
 
@@ -29,16 +25,16 @@ public class Gaveteiro extends AbstractComponente {
         this.folgaDasGavetas = folgaDasGavetas;
         this.alturasDasGavetas = alturasDasGavetas;
 
-        this.gavetas = new ArrayList<>();
+        this.corpoGavetas = new ArrayList<>();
         this.descricao = "Gaveteiro com " + quantidadeDeGavetas + " gavetas";
     }
 
     private void calcularAlturaDaGaveta(Dimensoes dimensoes) {
 
         alturasDasGavetas.forEach(altura -> {
-            Gaveta gaveta = new Gaveta(dimensoes, this.folgaDasGavetas,
+            CorpoGaveta corpoGaveta = new CorpoGaveta(dimensoes, this.folgaDasGavetas,
                     (altura - this.folgaDasGavetas.corpoEmRelacaoFrente()));
-            gavetas.add(gaveta);
+            corpoGavetas.add(corpoGaveta);
         });
     }
 
@@ -48,13 +44,13 @@ public class Gaveteiro extends AbstractComponente {
         calcularAlturaDaGaveta(dimensoes);
         this.espessura = dimensoes.getEspessura();
 
-        for (Gaveta gaveta : gavetas) {
-            gaveta.aceitar(estrategia, dimensoes);
+        for (CorpoGaveta corpoGaveta : corpoGavetas) {
+            corpoGaveta.aceitar(estrategia, dimensoes);
         }
     }
 
-    public List<Gaveta> getGavetas() {
-        return gavetas;
+    public List<CorpoGaveta> getGavetas() {
+        return corpoGavetas;
     }
 }
 

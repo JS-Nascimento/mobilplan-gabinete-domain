@@ -1,6 +1,8 @@
 package componentes;
 
 import componentes.estruturais.Caixa;
+import componentes.fechamentos.Gavetas;
+import componentes.fechamentos.Porta;
 import estrategias.EstrategiaDeConstrucao;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -135,7 +137,27 @@ public class Gabinete {
                     }
                 }));
 
-        fechamento.ifPresent(fechamento ->
+        fechamento.ifPresent(fechamento -> {
+            if (fechamento instanceof Gavetas gavetas) {
+//                frenteDeGaveta.getQuantidadeDeFrentes().forEach(quantidade -> {
+//                    fechamento.getMateriasPrima().forEach(materiaPrima -> {
+//                        double quantidade = 0.0;
+//                        switch (materiaPrima.getUnidade()) {
+//                            case METRO_QUADRADO -> quantidade = fechamento.getArea();
+//                            case METRO_LINEAR -> quantidade = fechamento.getMetragemLinear();
+//                        }
+//                        if (quantidadePorMaterial.containsKey(materiaPrima)) {
+//                            quantidadePorMaterial.put(materiaPrima,
+//                                    quantidadePorMaterial.get(materiaPrima) + quantidade);
+//                        } else {
+//                            quantidadePorMaterial.put(materiaPrima, quantidade);
+//                        }
+//
+//                    });
+//                });
+            }
+            if (fechamento instanceof Porta porta) {
+
                 fechamento.getMateriasPrima().forEach(materiaPrima -> {
                     double quantidade = 0.0;
                     switch (materiaPrima.getUnidade()) {
@@ -147,7 +169,11 @@ public class Gabinete {
                     } else {
                         quantidadePorMaterial.put(materiaPrima, quantidade);
                     }
-                }));
+
+                });
+            }
+
+        });
 
         this.acabamentos.putAll(quantidadePorMaterial);
     }

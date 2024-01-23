@@ -2,9 +2,6 @@ package componentes.estruturais;
 
 
 import componentes.AbstractComponente;
-import estrategias.EstrategiaDePrecificacao;
-import materiaPrima.MateriaPrima;
-import materiaPrima.acabamento.Acabamento;
 import componentes.Dimensoes;
 import componentes.Estrutural;
 import componentes.FolgasGavetas;
@@ -13,11 +10,11 @@ import estrategias.EstrategiaDeConstrucao;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Gaveta extends AbstractComponente {
+public class CorpoGaveta extends AbstractComponente {
     private final List<Estrutural> componentesEstruturais;
     private final FolgasGavetas folgas;
 
-    public Gaveta(Dimensoes dimensoesGabinete, FolgasGavetas folgas, double altura) {
+    public CorpoGaveta(Dimensoes dimensoesGabinete, FolgasGavetas folgas, double altura) {
 
         super(folgas.padraoDeFitagem());
         this.folgas = folgas;
@@ -61,6 +58,9 @@ public class Gaveta extends AbstractComponente {
                     .append("\n");
         }
         return descricaoComponentes.toString();
+    }
+    public List<Estrutural> componentes() {
+        return componentesEstruturais;
     }
 }
 

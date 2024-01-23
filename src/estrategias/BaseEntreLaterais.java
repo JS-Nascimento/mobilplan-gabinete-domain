@@ -15,9 +15,11 @@ import componentes.estruturais.PrateleiraInterna;
 import componentes.estruturais.TipoPrateleira;
 import componentes.estruturais.TraseiroGaveta;
 import componentes.estruturais.Travessa;
-import componentes.fechamentos.FrenteDeGaveta;
+import componentes.fechamentos.Gaveta;
+import componentes.fechamentos.Gavetas;
 import componentes.fechamentos.Porta;
 import componentes.fechamentos.TipoPorta;
+import java.util.stream.IntStream;
 
 public class BaseEntreLaterais implements EstrategiaDeConstrucao{
 
@@ -125,16 +127,15 @@ public class BaseEntreLaterais implements EstrategiaDeConstrucao{
     }
 
     @Override
-    public void aplicarParaFrenteGaveta(FrenteDeGaveta frenteDeGaveta, Dimensoes dimensoes,
+    public void aplicarParaFrenteGaveta(Gaveta gaveta, Dimensoes dimensoes,
                                         PadraoDeFitagem padraoDeFitagem) {
 
         var largura =
-                dimensoes.getLargura() - frenteDeGaveta.getFolgas().direita() - frenteDeGaveta.getFolgas().esquerda();
+                dimensoes.getLargura() - gaveta.folgas().direita() - gaveta.folgas().esquerda();
 
-        frenteDeGaveta.getAlturasDasFrentes().forEach(
-                frente -> frenteDeGaveta.setDimensoes(largura,
-                        descontoAlturaFrente(frenteDeGaveta.getTipoFrente(), frente),
-                        frenteDeGaveta.espessura(), frenteDeGaveta.getPadraoDeFitagem()));
+        IntStream.range(0, gaveta.quantidadeGavetas()).forEachOrdered(
+                i -> gaveta.setDimensoes(largura, descontoAlturaFrente(gaveta.tipoFrente(), i),
+                        gaveta.espessura(), gaveta.getPadraoDeFitagem()));
 
     }
 

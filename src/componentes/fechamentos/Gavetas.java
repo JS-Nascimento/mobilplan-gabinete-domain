@@ -5,38 +5,37 @@ import static helpers.FitaHelper.calcularMetragemFita;
 import static helpers.NumberHelper.roundDouble;
 
 import componentes.AbstractComponenteFechamento;
+import componentes.Fechamento;
 import estrategias.EstrategiaDeConstrucao;
-import estrategias.EstrategiaDePrecificacao;
 import helpers.FitaHelper;
 import helpers.NumberHelper;
-import materiaPrima.MateriaPrima;
-import materiaPrima.acabamento.Acabamento;
 import componentes.Dimensoes;
-import componentes.Fechamento;
 import componentes.Folgas;
 import componentes.FolgasGavetas;
 import componentes.PadraoDeFitagem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FrenteDeGaveta extends AbstractComponenteFechamento {
+public class Gavetas extends AbstractComponenteFechamento {
 
     private final Folgas folgas;
     private final FolgasGavetas folgasGavetas;
     private final int quantidadeDeFrentes;
     private final List<Double> alturasDasFrentes;
+    private final List<Fechamento> frentes ;
     private List<Double> alturasFinalDasFrentes;
     private Gaveteiro gaveteiro;
     private final TipoFrente tipoFrente;
     private Dimensoes dimensoes;
     private final List<String> descricoesFrentes = new ArrayList<>();
 
-    public FrenteDeGaveta(final Folgas folgas,
-                          final TipoFrente tipoFrente,
-                          final int quantidadeDeFrentes,
-                          List<Double> alturasDasFrentes,
-                          final FolgasGavetas folgasGavetas,
-                          final PadraoDeFitagem padraoDeFitagem, double espessura) {
+    public Gavetas(final Folgas folgas,
+                   final TipoFrente tipoFrente,
+                   final int quantidadeDeFrentes,
+                   List<Double> alturasDasFrentes,
+                   final FolgasGavetas folgasGavetas,
+                   final PadraoDeFitagem padraoDeFitagem,
+                   double espessura) {
         super(padraoDeFitagem);
         this.folgas = folgas;
         this.quantidadeDeFrentes = quantidadeDeFrentes;
@@ -44,6 +43,7 @@ public class FrenteDeGaveta extends AbstractComponenteFechamento {
         this.folgasGavetas = folgasGavetas;
         this.tipoFrente = tipoFrente;
         this.espessura = espessura;
+        this.frentes = new ArrayList<>();
     }
 
     @Override
@@ -51,7 +51,7 @@ public class FrenteDeGaveta extends AbstractComponenteFechamento {
         this.alturasFinalDasFrentes = calcularAlturasDasFrentes(alturasDasFrentes, dimensoes.getAltura());
         this.gaveteiro = new Gaveteiro(quantidadeDeFrentes, folgasGavetas, alturasFinalDasFrentes);
 
-        estrategia.aplicarParaFrenteGaveta(this, dimensoes, this.padraoDeFitagem);
+        //estrategia.aplicarParaFrenteGaveta(this, dimensoes, this.padraoDeFitagem);
         gaveteiro.aceitar(estrategia, dimensoes);
     }
 
@@ -162,5 +162,9 @@ public class FrenteDeGaveta extends AbstractComponenteFechamento {
             alturaFrentesCalculadas.add(alturaDasFrentesRestantes);
         }
         return alturaFrentesCalculadas;
+    }
+
+    public Gaveteiro gaveteiro() {
+        return gaveteiro;
     }
 }
