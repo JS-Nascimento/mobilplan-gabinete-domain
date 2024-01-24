@@ -42,9 +42,6 @@ public class PrateleiraInterna extends AbstractComponente {
         this.area = largura * profundidade;
         this.metragemFita = calcularMetragemFita(largura, profundidade, padraoDeFitagem);
         this.descricao = "Prateleira "
-                + this.tipoPrateleira.toString() + ": "  + largura + " x " + profundidade + " ("
-                + NumberHelper.mmSqParaMetrosSq(area) + " m²) - Metragem Fita: "
-                + NumberHelper.mmParaMetros(metragemFita) + "m x "
-                + FitaHelper.larguraDaFita(espessura) + "mm";
+                + this.tipoPrateleira.toString() ;
     }
 }

@@ -25,11 +25,9 @@ public class Travessa extends AbstractComponente {
     public void setDimensoes(double largura, double espessura, PadraoDeFitagem padraoDeFitagem) {
         this.largura = largura;
         this.espessura = espessura;
+        this.altura = profundidadeEspecifica;
         this.area = largura * profundidadeEspecifica;
         this.metragemFita = calcularMetragemFita(largura, profundidadeEspecifica, padraoDeFitagem);
-        this.descricao = "Travessa: " + largura + "mm x " + profundidadeEspecifica + "mm x " + espessura
-                + "mm (" + NumberHelper.mmSqParaMetrosSq(area) + " m²)- Metragem Fita: "
-                + NumberHelper.mmParaMetros(metragemFita) + "m x "
-                + FitaHelper.larguraDaFita(espessura) + "mm";
+        this.descricao = "Travessa Horizontal";
     }
 }

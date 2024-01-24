@@ -29,9 +29,6 @@ public class LateralGaveta extends AbstractComponente {
         this.profundidade = profundidade;
         this.area = altura * profundidade;
         this.metragemFita = calcularMetragemFita(altura, profundidade, padraoDeFitagem);
-        this.descricao = "Lateral Gaveta: " + altura + "mm x " + profundidade + "mm x " + espessura
-                + "mm (" + NumberHelper.mmSqParaMetrosSq(area) + " m²)- Metragem Fita: "
-                + NumberHelper.mmParaMetros(metragemFita) + "m x "
-                + FitaHelper.larguraDaFita(espessura) + "mm";
+        this.descricao = "Lateral Gaveta" ;
     }
 }

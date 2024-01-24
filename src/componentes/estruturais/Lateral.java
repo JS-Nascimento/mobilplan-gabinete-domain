@@ -30,9 +30,6 @@ public class Lateral extends AbstractComponente {
         this.area = altura * profundidade;
         this.espessura = espessura;
         this.metragemFita = calcularMetragemFita(altura, profundidade, padraoDeFitagem);
-        this.descricao = "Lateral: " + altura + "mm x " + profundidade + "mm x " + espessura
-                + "mm (" + NumberHelper.mmSqParaMetrosSq(area) + " m²)- Metragem Fita: "
-                + NumberHelper.mmParaMetros(metragemFita) + "m x "
-                + FitaHelper.larguraDaFita(espessura) + "mm";
+        this.descricao = "Lateral";
     }
 }

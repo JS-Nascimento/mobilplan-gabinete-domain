@@ -29,10 +29,7 @@ public class FundoGaveta extends AbstractComponente {
         this.largura = largura;
         this.area = profundidade * largura;
         this.metragemFita = calcularMetragemFita(largura, profundidade, padraoDeFitagem);
-        this.descricao = "Fundo Gaveta: " + profundidade + "mm x " + largura + "mm x " + espessura
-                + "mm (" + NumberHelper.mmSqParaMetrosSq(area) + " m²)- Metragem Fita: "
-                + NumberHelper.mmParaMetros(metragemFita) + "m x "
-                + FitaHelper.larguraDaFita(espessura) + "mm";
+        this.descricao = "Fundo Gaveta" ;
     }
 
     public FolgasGavetas getFolgasGavetas() {

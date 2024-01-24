@@ -30,9 +30,6 @@ public class Base extends AbstractComponente {
         this.espessura = espessura;
         this.area = largura * profundidade;
         this.metragemFita = calcularMetragemFita(largura, profundidade, padraoDeFitagem);
-        this.descricao = "Base: " + largura + "mm x " + profundidade + "mm x " + espessura
-                + "mm (" + NumberHelper.mmSqParaMetrosSq(area) + " m²)- Metragem Fita: "
-                + NumberHelper.mmParaMetros(metragemFita) + "m x "
-                + FitaHelper.larguraDaFita(espessura) + "mm";
+        this.descricao = "Base";
     }
 }

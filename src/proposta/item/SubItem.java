@@ -27,7 +27,7 @@ public class SubItem {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(componente.getClass().getSimpleName()).append(" - ");
+        sb.append(componente.getDescricao()).append(" - ");
         sb.append(componente.altura()).append(" x ");
         sb.append(componente.largura()).append(" x ");
         sb.append(componente.profundidade()).append(" x ");

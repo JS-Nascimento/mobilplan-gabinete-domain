@@ -30,10 +30,7 @@ public class TraseiroGaveta extends AbstractComponente {
         this.espessura = espessura;
         this.area = altura * largura;
         this.metragemFita = calcularMetragemFita(largura, altura, padraoDeFitagem);
-        this.descricao = "Traseiro Gaveta: " + altura + "mm x " + largura + "mm x " + espessura
-                + "mm (" + NumberHelper.mmSqParaMetrosSq(area) + " m²)- Metragem Fita: "
-                + NumberHelper.mmParaMetros(metragemFita) + "m x "
-                + FitaHelper.larguraDaFita(espessura) + "mm";
+        this.descricao = "Traseiro Gaveta" ;
     }
 
     public FolgasGavetas getFolgasGavetas() {

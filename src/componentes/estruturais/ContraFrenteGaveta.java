@@ -30,10 +30,7 @@ public class ContraFrenteGaveta extends AbstractComponente {
         this.espessura = espessura;
         this.area = altura * largura;
         this.metragemFita = calcularMetragemFita(largura, altura, padraoDeFitagem);
-        this.descricao = "Contra Frente Gaveta: " + altura + "mm x " + largura + "mm x " + espessura
-                + "mm (" + NumberHelper.mmSqParaMetrosSq(area) + " m²)- Metragem Fita: "
-                + NumberHelper.mmParaMetros(metragemFita) + "m x "
-                + FitaHelper.larguraDaFita(espessura) + "mm";
+        this.descricao = "Contra Frente Gaveta";
     }
 
     public FolgasGavetas getFolgasGavetas() {

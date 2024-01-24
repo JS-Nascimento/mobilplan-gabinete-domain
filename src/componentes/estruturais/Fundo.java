@@ -37,17 +37,7 @@ public class Fundo extends AbstractComponente {
         this.espessura = espessura;
         this.area = largura * altura;
         this.metragemFita = calcularMetragemFita(largura, altura, padraoDeFitagem);
-        if(metragemFita > 0) {
-            this.descricao = "Fundo: " + largura + "mm x " + altura + "mm x " + espessura
-                    + "mm (" + NumberHelper.mmSqParaMetrosSq(area) + " m²)- Metragem Fita: "
-                    + NumberHelper.mmParaMetros(metragemFita) + "m x "
-                    + FitaHelper.larguraDaFita(espessura) + "mm";
-        }
-        else {
-            this.descricao = "Fundo " + tipoFundo + ": " + largura + " x " + altura + ", Espessura: " + espessura + " mm - (" + NumberHelper.mmSqParaMetrosSq(area) + " m²)";
-        }
-
-
+            this.descricao = "Fundo " + tipoFundo;
     }
 
     public TipoFundo getTipoFundo() {
