@@ -7,6 +7,7 @@ import componentes.Folgas;
 import componentes.PadraoDeFitagem;
 import componentes.estruturais.Base;
 import componentes.estruturais.ContraFrenteGaveta;
+import componentes.estruturais.CorpoGaveta;
 import componentes.estruturais.Fundo;
 import componentes.estruturais.FundoGaveta;
 import componentes.estruturais.Lateral;
@@ -15,13 +16,12 @@ import componentes.estruturais.PrateleiraInterna;
 import componentes.estruturais.TipoPrateleira;
 import componentes.estruturais.TraseiroGaveta;
 import componentes.estruturais.Travessa;
+import componentes.fechamentos.FrenteGaveta;
 import componentes.fechamentos.Gaveta;
-import componentes.fechamentos.Gavetas;
 import componentes.fechamentos.Porta;
 import componentes.fechamentos.TipoPorta;
-import java.util.stream.IntStream;
 
-public class BaseEntreLaterais implements EstrategiaDeConstrucao{
+public class BaseEntreLaterais implements EstrategiaDeConstrucao {
 
     @Override
     public void aplicarParaBase(Base base, Dimensoes dimensoes, PadraoDeFitagem padraoDeFitagem) {
@@ -98,7 +98,7 @@ public class BaseEntreLaterais implements EstrategiaDeConstrucao{
     public void aplicarParaLateralGaveta(LateralGaveta lateralGaveta, Dimensoes dimensoes,
                                          PadraoDeFitagem padraoDeFitagem) {
 
-            lateralGaveta.setDimensoes(lateralGaveta.altura(), lateralGaveta.profundidade(),
+        lateralGaveta.setDimensoes(lateralGaveta.altura(), lateralGaveta.profundidade(),
                 lateralGaveta.espessura(), padraoDeFitagem);
     }
 
@@ -127,15 +127,35 @@ public class BaseEntreLaterais implements EstrategiaDeConstrucao{
     }
 
     @Override
-    public void aplicarParaFrenteGaveta(Gaveta gaveta, Dimensoes dimensoes,
+    public void aplicarParaGaveta(Gaveta gaveta, Dimensoes dimensoes,
+                                  PadraoDeFitagem padraoDeFitagem) {
+
+        gaveta.alturaDeTodasAsFrentes().forEach(frente -> {
+            var novaFrenteGaveta = new FrenteGaveta(
+                    descontoAlturaFrente(gaveta.tipoFrente(), frente),
+                    gaveta.espessura(),
+                    gaveta.tipoFrente(),
+                    gaveta.folgas(),
+                    gaveta.folgasGavetas(),
+                    gaveta.getPadraoDeFitagem());
+            gaveta.adicionarFrenteGaveta(novaFrenteGaveta);
+
+            var corpoGaveta = new CorpoGaveta(dimensoes, gaveta.folgasGavetas(),
+                    (frente - gaveta.folgasGavetas().corpoEmRelacaoFrente()));
+            gaveta.adicionarCorpoGaveta(corpoGaveta);
+        });
+
+    }
+
+    @Override
+    public void aplicarParaFrenteGaveta(FrenteGaveta gaveta, Dimensoes dimensoes,
                                         PadraoDeFitagem padraoDeFitagem) {
 
         var largura =
                 dimensoes.getLargura() - gaveta.folgas().direita() - gaveta.folgas().esquerda();
 
-        IntStream.range(0, gaveta.quantidadeGavetas()).forEachOrdered(
-                i -> gaveta.setDimensoes(largura, descontoAlturaFrente(gaveta.tipoFrente(), i),
-                        gaveta.espessura(), gaveta.getPadraoDeFitagem()));
+        gaveta.setDimensoes(largura, descontoAlturaFrente(gaveta.tipoFrente(), gaveta.altura()),
+                gaveta.espessura(), gaveta.getPadraoDeFitagem());
 
     }
 

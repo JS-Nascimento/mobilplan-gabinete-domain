@@ -1,7 +1,7 @@
 package componentes;
 
 import componentes.estruturais.Caixa;
-import componentes.fechamentos.Gavetas;
+import componentes.fechamentos.Gaveta;
 import componentes.fechamentos.Porta;
 import estrategias.EstrategiaDeConstrucao;
 import java.util.ArrayList;
@@ -138,23 +138,41 @@ public class Gabinete {
                 }));
 
         fechamento.ifPresent(fechamento -> {
-            if (fechamento instanceof Gavetas gavetas) {
-//                frenteDeGaveta.getQuantidadeDeFrentes().forEach(quantidade -> {
-//                    fechamento.getMateriasPrima().forEach(materiaPrima -> {
-//                        double quantidade = 0.0;
-//                        switch (materiaPrima.getUnidade()) {
-//                            case METRO_QUADRADO -> quantidade = fechamento.getArea();
-//                            case METRO_LINEAR -> quantidade = fechamento.getMetragemLinear();
-//                        }
-//                        if (quantidadePorMaterial.containsKey(materiaPrima)) {
-//                            quantidadePorMaterial.put(materiaPrima,
-//                                    quantidadePorMaterial.get(materiaPrima) + quantidade);
-//                        } else {
-//                            quantidadePorMaterial.put(materiaPrima, quantidade);
-//                        }
-//
-//                    });
-//                });
+            if (fechamento instanceof Gaveta gaveta) {
+                gaveta.frentes().forEach(frente -> {
+                    fechamento.getMateriasPrima().forEach(materiaPrima -> {
+                        double quantidade = 0.0;
+                        switch (materiaPrima.getUnidade()) {
+                            case METRO_QUADRADO -> quantidade = frente.getArea();
+                            case METRO_LINEAR -> quantidade = frente.getMetragemLinear();
+                        }
+                        if (quantidadePorMaterial.containsKey(materiaPrima)) {
+                            quantidadePorMaterial.put(materiaPrima,
+                                    quantidadePorMaterial.get(materiaPrima) + quantidade);
+                        } else {
+                            quantidadePorMaterial.put(materiaPrima, quantidade);
+                        }
+
+                    });
+                });
+
+                gaveta.corpoGavetas().forEach(corpo -> {
+                    corpo.componentes().forEach(componente -> {
+                        componente.getMateriasPrima().forEach(materiaPrima -> {
+                            double quantidade = 0.0;
+                            switch (materiaPrima.getUnidade()) {
+                                case METRO_QUADRADO -> quantidade = componente.getArea();
+                                case METRO_LINEAR -> quantidade = componente.getMetragemLinear();
+                            }
+                            if (quantidadePorMaterial.containsKey(materiaPrima)) {
+                                quantidadePorMaterial.put(materiaPrima,
+                                        quantidadePorMaterial.get(materiaPrima) + quantidade);
+                            } else {
+                                quantidadePorMaterial.put(materiaPrima, quantidade);
+                            }
+                        });
+                    });
+                });
             }
             if (fechamento instanceof Porta porta) {
 
@@ -165,7 +183,8 @@ public class Gabinete {
                         case METRO_LINEAR -> quantidade = fechamento.getMetragemLinear();
                     }
                     if (quantidadePorMaterial.containsKey(materiaPrima)) {
-                        quantidadePorMaterial.put(materiaPrima, quantidadePorMaterial.get(materiaPrima) + quantidade);
+                        quantidadePorMaterial.put(materiaPrima,
+                                quantidadePorMaterial.get(materiaPrima) + quantidade);
                     } else {
                         quantidadePorMaterial.put(materiaPrima, quantidade);
                     }
@@ -210,7 +229,8 @@ public class Gabinete {
         }
         if (dimensoes.isPresent()) {
             descricao =
-                    descricao + dimensoes.get().getLargura() + "mm x " + dimensoes.get().getProfundidade() + "mm x " +
+                    descricao + dimensoes.get().getLargura() + "mm x " + dimensoes.get().getProfundidade() +
+                            "mm x " +
                             dimensoes.get().getAltura() + "mm";
         }
 

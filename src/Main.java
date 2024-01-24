@@ -2,7 +2,7 @@ import static materiaPrima.acabamento.Unidade.PAR;
 import static materiaPrima.acabamento.Unidade.UNIDADE;
 
 import componentes.FolgasGavetas;
-import componentes.fechamentos.Gavetas;
+import componentes.fechamentos.Gaveta;
 import componentes.fechamentos.TipoFrente;
 import estrategias.BaseEntreLaterais;
 import materiaPrima.acabamento.CalculaPorLado;
@@ -135,7 +135,7 @@ public class Main {
 ////        frentes.add(155.0);
 //        //TODO: corrigir a calculo de frentes de gaveta
         gaveteiro.adicionarFechamento(
-                new Gavetas(
+                new Gaveta(
                         new Folgas(3, 3, 3, 3, 3),
                         TipoFrente.NORMAL,
                         4,
@@ -153,4 +153,5 @@ public class Main {
 
 
     }
+
 }

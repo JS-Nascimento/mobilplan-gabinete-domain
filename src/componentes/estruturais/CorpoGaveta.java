@@ -21,13 +21,14 @@ public class CorpoGaveta extends AbstractComponente {
         this.altura = altura;
         this.espessura =  folgas.espessuraCorpo();
         this.componentesEstruturais = new ArrayList<>();
+        this.largura = 350.0;
 
         this.componentesEstruturais.add(new FundoGaveta(folgas, PadraoDeFitagem.NENHUM));
         this.componentesEstruturais.add(new LateralGaveta(folgas,
-                new Dimensoes(0.0, altura, 0.0,this.espessura),
+                new Dimensoes(largura, altura, 0.0,this.espessura),
                 padraoDeFitagem));
         this.componentesEstruturais.add(new LateralGaveta(folgas,
-                new Dimensoes(0.0, altura, folgas.profundidadeGaveta(), this.espessura),
+                new Dimensoes(largura, altura, folgas.profundidadeGaveta(), this.espessura),
                 padraoDeFitagem));
         this.componentesEstruturais.add(new ContraFrenteGaveta(altura, folgas));
 

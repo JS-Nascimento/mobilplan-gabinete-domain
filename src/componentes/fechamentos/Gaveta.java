@@ -1,19 +1,15 @@
 package componentes.fechamentos;
 
 import static helpers.DescontosPadroes.verificaAlturaMinimaGaveta;
-import static helpers.FitaHelper.calcularMetragemFita;
 import static helpers.NumberHelper.roundDouble;
 
 import componentes.AbstractComponenteFechamento;
 import componentes.Dimensoes;
-import componentes.Fechamento;
 import componentes.Folgas;
 import componentes.FolgasGavetas;
 import componentes.PadraoDeFitagem;
 import componentes.estruturais.CorpoGaveta;
 import estrategias.EstrategiaDeConstrucao;
-import helpers.FitaHelper;
-import helpers.NumberHelper;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +19,10 @@ public class Gaveta extends AbstractComponenteFechamento {
     private final FolgasGavetas folgasGavetas;
     private final int quantidadeGavetas;
     private final List<Double> alturasDasFrentes;
-    private final List<Fechamento> frenteGavetas;
+    private List<Double> alturaDeTodasAsFrentes;
+    private final List<FrenteGaveta> frenteGavetas;
     private final List<CorpoGaveta> corpoGavetas;
-    private Gaveteiro gaveteiro;
     private final TipoFrente tipoFrente;
-    private Dimensoes dimensoes;
 
     public Gaveta(final Folgas folgas,
                   final TipoFrente tipoFrente,
@@ -45,19 +40,22 @@ public class Gaveta extends AbstractComponenteFechamento {
         this.espessura = espessura;
         this.frenteGavetas = new ArrayList<>();
         this.corpoGavetas = new ArrayList<>();
+        this.alturaDeTodasAsFrentes = new ArrayList<>();
     }
 
     @Override
     public void aceitar(EstrategiaDeConstrucao estrategia, Dimensoes dimensoes) {
 
-        this.gaveteiro = new Gaveteiro(quantidadeGavetas,
-                folgasGavetas,
-                calcularAlturasDasFrentes(alturasDasFrentes, dimensoes.getAltura()));
+        calcularAlturasDasFrentes(dimensoes);
 
-        estrategia.aplicarParaFrenteGaveta(this, dimensoes, this.padraoDeFitagem);
-        gaveteiro.aceitar(estrategia, dimensoes);
+        estrategia.aplicarParaGaveta(this, dimensoes, this.padraoDeFitagem);
 
-
+        for (FrenteGaveta frenteGaveta : frenteGavetas) {
+            frenteGaveta.aceitar(estrategia, dimensoes);
+        }
+        for (CorpoGaveta corpoGaveta : corpoGavetas) {
+            corpoGaveta.aceitar(estrategia, dimensoes);
+        }
     }
 
     private void validarAlturaFrentes(final double alturaGabinete) {
@@ -77,19 +75,20 @@ public class Gaveta extends AbstractComponenteFechamento {
 
     }
 
-    private List<Double> calcularAlturasDasFrentes(final List<Double> alturasDasFrentes, final double alturaGabinete) {
+    private void calcularAlturasDasFrentes(Dimensoes dimensoes) {
 
         if (alturasDasFrentes.size() >= quantidadeGavetas) {
             throw new IllegalArgumentException("A quantidade de frentes informada é diferente da quantidade de alturas informadas");
         }
 
-        validarAlturaFrentes(alturaGabinete);
+        validarAlturaFrentes(dimensoes.getAltura());
 
         var totalFolgas =(folgas.entreComponentes() * (quantidadeGavetas - 1)) + folgas.superior() + folgas.inferior();
-        var alturaLivreGabinete = alturaGabinete - totalFolgas;
+        var alturaLivreGabinete = dimensoes.getAltura() - totalFolgas;
 
         if (quantidadeGavetas == 1) {
-            return List.of(alturaLivreGabinete);
+            this.alturaDeTodasAsFrentes = List.of(alturaLivreGabinete);
+            return ;
         }
 
         var alturaTotalFrentesGaveta = alturasDasFrentes.stream()
@@ -102,30 +101,12 @@ public class Gaveta extends AbstractComponenteFechamento {
 
         var alturaDasFrentesRestantes = roundDouble(( alturaRestante / gavetasRestantes),1);
 
-        var alturaFrentesCalculadas = new ArrayList<Double>();
-
-        alturaFrentesCalculadas.addAll(alturasDasFrentes);
+        var alturaFrentesCalculadas = new ArrayList<Double>(alturasDasFrentes);
 
         for (int i = 0; i < gavetasRestantes; i++) {
             alturaFrentesCalculadas.add(alturaDasFrentesRestantes);
         }
-        return alturaFrentesCalculadas;
-    }
-    public void setDimensoes(double largura, double profundidade, double espessura,  PadraoDeFitagem padraoDeFitagem) {
-
-        this.descricaoCurta = "com " + quantidadeGavetas + " gaveta(s)";
-        this.largura = largura;
-        this.profundidade = profundidade;
-        this.area = (largura * profundidade) ;
-        this.metragemFita = calcularMetragemFita(largura, profundidade, padraoDeFitagem) ;
-        this.descricao = setDescricao(area, metragemFita, largura, profundidade, espessura);
-
-        //descricoesFrentes.add(descricao);
-    }
-    private String setDescricao(double area, double metragemFita, double largura, double profundidade, double espessura) {
-        return "Frente de Gaveta: "+ tipoFrente + " - " + largura + "mm x " + profundidade + "mm x " + espessura +
-                "mm (" + NumberHelper.mmSqParaMetrosSq(area) + " m²) - Metragem Fita: " +
-                NumberHelper.mmParaMetros(metragemFita) + "m x " + FitaHelper.larguraDaFita(espessura) + "mm";
+        this.alturaDeTodasAsFrentes = alturaFrentesCalculadas;
     }
 
     public Folgas folgas() {
@@ -140,11 +121,38 @@ public class Gaveta extends AbstractComponenteFechamento {
         return quantidadeGavetas;
     }
 
-    public void adicionarFrentes(List<Fechamento> frentes) {
-        this.frenteGavetas.clear();
-        this.frenteGavetas.addAll(frentes);
-    }
-    public List<Fechamento> frentes() {
+    public List<FrenteGaveta> frentes() {
         return frenteGavetas;
+    }
+
+    public List<CorpoGaveta> corpoGavetas() {
+        return corpoGavetas;
+    }
+
+    public List<Double> alturaDeTodasAsFrentes() {
+        return alturaDeTodasAsFrentes;
+    }
+
+    public FolgasGavetas folgasGavetas() {
+        return folgasGavetas;
+    }
+
+    public void adicionarFrenteGaveta(FrenteGaveta frenteGaveta) {
+        this.frenteGavetas.add(frenteGaveta);
+    }
+    @Override
+    public String getDescricao() {
+        this.descricao = "";
+        var gavetas = this.corpoGavetas;
+
+        frenteGavetas.forEach(
+              frente -> this.descricao += frente.getDescricao() + "\n"
+                      + "Componentes: \n"
+                      + gavetas.get(frenteGavetas.indexOf(frente)).listarComponentes() + "\n"
+        );
+        return descricao;
+    }
+    public void adicionarCorpoGaveta(CorpoGaveta corpoGaveta) {
+        this.corpoGavetas.add(corpoGaveta);
     }
 }

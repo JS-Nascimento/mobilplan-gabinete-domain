@@ -15,11 +15,10 @@ import componentes.estruturais.PrateleiraInterna;
 import componentes.estruturais.TipoPrateleira;
 import componentes.estruturais.TraseiroGaveta;
 import componentes.estruturais.Travessa;
+import componentes.fechamentos.FrenteGaveta;
 import componentes.fechamentos.Gaveta;
-import componentes.fechamentos.Gavetas;
 import componentes.fechamentos.Porta;
 import componentes.fechamentos.TipoPorta;
-import java.util.stream.IntStream;
 
 class BaseSobreLaterais implements EstrategiaDeConstrucao {
 
@@ -113,15 +112,31 @@ class BaseSobreLaterais implements EstrategiaDeConstrucao {
     }
 
     @Override
-    public void aplicarParaFrenteGaveta(Gaveta gaveta, Dimensoes dimensoes,
+    public void aplicarParaGaveta(Gaveta gaveta, Dimensoes dimensoes,
+                                  PadraoDeFitagem padraoDeFitagem) {
+
+        gaveta.alturaDeTodasAsFrentes().forEach ( frente ->{
+            var novaFrenteGaveta = new FrenteGaveta(
+                    descontoAlturaFrente(gaveta.tipoFrente(), frente),
+                    gaveta.espessura(),
+                    gaveta.tipoFrente(),
+                    gaveta.folgas(),
+                    gaveta.folgasGavetas(),
+                    gaveta.getPadraoDeFitagem());
+            gaveta.adicionarFrenteGaveta(novaFrenteGaveta);
+        });
+
+    }
+
+    @Override
+    public void aplicarParaFrenteGaveta(FrenteGaveta gaveta, Dimensoes dimensoes,
                                         PadraoDeFitagem padraoDeFitagem) {
 
         var largura =
                 dimensoes.getLargura() - gaveta.folgas().direita() - gaveta.folgas().esquerda();
 
-        IntStream.range(0, gaveta.quantidadeGavetas()).forEachOrdered(
-                i -> gaveta.setDimensoes(largura, descontoAlturaFrente(gaveta.tipoFrente(), i),
-                        gaveta.espessura(), gaveta.getPadraoDeFitagem()));
+        gaveta.setDimensoes(largura, descontoAlturaFrente(gaveta.tipoFrente(), gaveta.altura()),
+                gaveta.espessura(), gaveta.getPadraoDeFitagem());
 
     }
 
