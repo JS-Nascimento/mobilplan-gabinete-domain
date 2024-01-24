@@ -47,6 +47,8 @@ public class CorpoGaveta extends AbstractComponente {
                              PadraoDeFitagem padraoDeFitagem) {
         this.largura = largura;
         this.profundidade = profundidade;
+        this.espessura = espessura;
+        this.altura = altura;
         //TODO: Refatorar para usar o padraoDeFitagem e metragemFita
     }
 

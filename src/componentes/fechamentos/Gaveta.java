@@ -5,13 +5,16 @@ import static helpers.NumberHelper.roundDouble;
 
 import componentes.AbstractComponenteFechamento;
 import componentes.Dimensoes;
+import componentes.Estrutural;
 import componentes.Folgas;
 import componentes.FolgasGavetas;
 import componentes.PadraoDeFitagem;
 import componentes.estruturais.CorpoGaveta;
+import componentes.estruturais.TipoFundo;
 import estrategias.EstrategiaDeConstrucao;
 import java.util.ArrayList;
 import java.util.List;
+import materiaPrima.MateriaPrima;
 
 public class Gaveta extends AbstractComponenteFechamento {
 
@@ -24,18 +27,16 @@ public class Gaveta extends AbstractComponenteFechamento {
     private final List<CorpoGaveta> corpoGavetas;
     private final TipoFrente tipoFrente;
 
-    public Gaveta(final Folgas folgas,
-                  final TipoFrente tipoFrente,
+    public Gaveta(final TipoFrente tipoFrente,
                   final int quantidadeGavetas,
                   List<Double> alturasDasFrentes,
-                  final FolgasGavetas folgasGavetas,
                   final PadraoDeFitagem padraoDeFitagem,
                   double espessura) {
         super(padraoDeFitagem);
-        this.folgas = folgas;
         this.quantidadeGavetas = quantidadeGavetas;
         this.alturasDasFrentes = alturasDasFrentes;
-        this.folgasGavetas = folgasGavetas;
+        this.folgas = folgas();
+        this.folgasGavetas = folgasGavetas();
         this.tipoFrente = tipoFrente;
         this.espessura = espessura;
         this.frenteGavetas = new ArrayList<>();
@@ -54,6 +55,7 @@ public class Gaveta extends AbstractComponenteFechamento {
             frenteGaveta.aceitar(estrategia, dimensoes);
         }
         for (CorpoGaveta corpoGaveta : corpoGavetas) {
+            corpoGaveta.adicionarAcabamentos(this.materiaPrimas());
             corpoGaveta.aceitar(estrategia, dimensoes);
         }
     }
@@ -63,8 +65,8 @@ public class Gaveta extends AbstractComponenteFechamento {
         var alturaTotalFrentes = alturasDasFrentes.stream()
                 .mapToDouble(Double::doubleValue)
                 .sum();
-        alturaTotalFrentes += (folgas.entreComponentes() * (quantidadeGavetas - 1));
-        alturaTotalFrentes += folgas.superior() + folgas.inferior();
+        alturaTotalFrentes += (folgas().entreComponentes() * (quantidadeGavetas - 1));
+        alturaTotalFrentes += folgas().superior() + folgas().inferior();
 
         if (alturaTotalFrentes > alturaGabinete){
             throw new IllegalArgumentException("A soma das alturas das gavetas excede a altura do gabinete");
@@ -83,7 +85,7 @@ public class Gaveta extends AbstractComponenteFechamento {
 
         validarAlturaFrentes(dimensoes.getAltura());
 
-        var totalFolgas =(folgas.entreComponentes() * (quantidadeGavetas - 1)) + folgas.superior() + folgas.inferior();
+        var totalFolgas =(folgas().entreComponentes() * (quantidadeGavetas - 1)) + folgas().superior() + folgas().inferior();
         var alturaLivreGabinete = dimensoes.getAltura() - totalFolgas;
 
         if (quantidadeGavetas == 1) {
@@ -101,7 +103,7 @@ public class Gaveta extends AbstractComponenteFechamento {
 
         var alturaDasFrentesRestantes = roundDouble(( alturaRestante / gavetasRestantes),1);
 
-        var alturaFrentesCalculadas = new ArrayList<Double>(alturasDasFrentes);
+        var alturaFrentesCalculadas = new ArrayList<>(alturasDasFrentes);
 
         for (int i = 0; i < gavetasRestantes; i++) {
             alturaFrentesCalculadas.add(alturaDasFrentesRestantes);
@@ -110,7 +112,8 @@ public class Gaveta extends AbstractComponenteFechamento {
     }
 
     public Folgas folgas() {
-        return folgas;
+        //TODO: Refatorar para Buscar configurações de folgas no banco de dados
+        return new Folgas(3, 3, 3, 3, 3);
     }
 
     public TipoFrente tipoFrente() {
@@ -134,7 +137,8 @@ public class Gaveta extends AbstractComponenteFechamento {
     }
 
     public FolgasGavetas folgasGavetas() {
-        return folgasGavetas;
+
+        return new FolgasGavetas(TipoFundo.ENCAIXADO, 26, 350, 30, 15, 6, 10, PadraoDeFitagem.UMA_ALTURA);
     }
 
     public void adicionarFrenteGaveta(FrenteGaveta frenteGaveta) {
@@ -155,4 +159,5 @@ public class Gaveta extends AbstractComponenteFechamento {
     public void adicionarCorpoGaveta(CorpoGaveta corpoGaveta) {
         this.corpoGavetas.add(corpoGaveta);
     }
+
 }

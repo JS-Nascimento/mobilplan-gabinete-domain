@@ -1,41 +1,58 @@
 package proposta.item;
 
+import componentes.Componente;
 import helpers.NumberHelper;
+import java.util.List;
+import materiaPrima.MateriaPrima;
+import materiaPrima.acabamento.Unidade;
 
 public class SubItem {
 
-    private final String descricao;
-    private final double quantidade;
-    private final double valor;
-    private final double total;
+    private final Componente componente;
+    private final List<MateriaPrima> materiaPrimas;
 
-    public SubItem(String descricao, double quantidade, double valor, double total) {
-        this.descricao = descricao;
-        this.quantidade = quantidade;
-        this.valor = valor;
-        this.total = total;
+    public SubItem(Componente componente, List<MateriaPrima> materiaPrimas) {
+        this.componente = componente;
+        this.materiaPrimas = materiaPrimas;
     }
 
-    public String descricao() {
-        return descricao;
+    public Componente componente() {
+        return componente;
     }
 
-    public double quantidade() {
-        return quantidade;
-    }
-
-    public double valor() {
-        return valor;
-    }
-
-    public double total() {
-        return total;
+    public List<MateriaPrima> materiaPrimas() {
+        return materiaPrimas;
     }
 
     @Override
     public String toString() {
-        return   descricao + ", qtd : " + quantidade +
-                ", vl Unit. " + NumberHelper.formatNumber( valor, 2) +
-                ", total=" + NumberHelper.formatCurrency(total) ;
+        StringBuilder sb = new StringBuilder();
+        sb.append(componente.getClass().getSimpleName()).append(" - ");
+        sb.append(componente.altura()).append(" x ");
+        sb.append(componente.largura()).append(" x ");
+        sb.append(componente.profundidade()).append(" x ");
+        sb.append(componente.espessura()).append(" : ");
+
+        for (MateriaPrima materiaPrima : componente.getMateriasPrima()) {
+            sb.append('\n');
+            sb.append(" ==> ");
+            sb.append(materiaPrima.getDescricao()).append(" ").append(materiaPrima.getCor());
+
+            switch (materiaPrima.getUnidade()) {
+                case METRO_QUADRADO -> sb.append(" - ")
+                        .append(NumberHelper.mmSqParaMetrosSq(componente.getArea()))
+                        .append(materiaPrima.getUnidade().getDescricao())
+                        .append(" x ").append(materiaPrima.getPreco()).append(" = ")
+                        .append(NumberHelper.formatCurrency(materiaPrima.getPreco() * NumberHelper.mmSqParaMetrosSq(componente.getArea())));
+                case METRO_LINEAR -> sb.append(" - ")
+                        .append(NumberHelper.mmParaMetros(componente.getMetragemLinear()))
+                        .append(materiaPrima.getUnidade().getDescricao())
+                        .append(" x ").append(materiaPrima.getPreco()).append(" = ")
+                        .append(NumberHelper.formatCurrency(materiaPrima.getPreco() * NumberHelper.mmParaMetros(componente.getMetragemLinear())));
+            }
+            sb.append(" ").append(materiaPrima.getUnidade().getDescricao()).append(" ");
+        }
+        sb.append('\n');
+        return sb.toString();
     }
 }

@@ -15,4 +15,8 @@ public interface Componente {
     double getMetragemLinear();
     List<MateriaPrima> getMateriasPrima();
     PadraoDeFitagem getPadraoDeFitagem();
+    double altura();
+    double largura();
+    double profundidade();
+    double espessura();
 }

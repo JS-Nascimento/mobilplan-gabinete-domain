@@ -2,6 +2,7 @@ import static materiaPrima.acabamento.Unidade.PAR;
 import static materiaPrima.acabamento.Unidade.UNIDADE;
 
 import componentes.FolgasGavetas;
+import componentes.estruturais.LateralGaveta;
 import componentes.fechamentos.Gaveta;
 import componentes.fechamentos.TipoFrente;
 import estrategias.BaseEntreLaterais;
@@ -63,6 +64,14 @@ public class Main {
                 75.55
 
         );
+        var mdfCaixa18Esp = new Mdf(
+                "MDF TX ",
+                "Carvalho Hannover 18mm",
+                CalculaPorLado.UMA_FACE,
+                new DimensoesChapa(2750, 1850, 18),
+                90.00
+
+        );
 
         var mdfFundo = new Mdf(
                 "MDF TX",
@@ -114,6 +123,8 @@ public class Main {
         gabinete.definirAcabamentosFrente(List.of(mdfCaixa18, fitaBordas22));
         gabinete.definirAcabamentoCaixaEspecifico(Fundo.class, List.of(mdfFundo));
 
+
+
         var item = new Item(gabinete);
         System.out.println(item.toString());
 
@@ -128,6 +139,7 @@ public class Main {
         gaveteiro.adicionarComponenteEstrutural(new Travessa(75, PadraoDeFitagem.UMA_ALTURA));
         gaveteiro.adicionarComponenteEstrutural(new Fundo(TipoFundo.ENCAIXADO, 6, 10, PadraoDeFitagem.NENHUM));
 
+
         var frentes = new ArrayList<Double>();
         frentes.add(120.0);
         frentes.add(155.0);
@@ -136,22 +148,19 @@ public class Main {
 //        //TODO: corrigir a calculo de frentes de gaveta
         gaveteiro.adicionarFechamento(
                 new Gaveta(
-                        new Folgas(3, 3, 3, 3, 3),
                         TipoFrente.NORMAL,
                         4,
                         frentes,
-                        new FolgasGavetas(TipoFundo.ENCAIXADO, 26, 350, 30, 15, 6, 10, PadraoDeFitagem.UMA_ALTURA),
-                        PadraoDeFitagem.QUATRO_LADOS, 18));
+                        PadraoDeFitagem.QUATRO_LADOS,
+                        18));
 
         gaveteiro.definirDimensoes(new Dimensoes(400, 800, 560, 15));
         gaveteiro.definirAcabamentosCaixa(List.of(mdfCaixa, fitaBordas));
         gaveteiro.definirAcabamentosFrente(List.of(mdfCaixa18, fitaBordas22));
-        gaveteiro.adicionarFerragem(trilhos, 4.0);
         gaveteiro.definirAcabamentoCaixaEspecifico(Fundo.class, List.of(mdfFundo));
+        gaveteiro.adicionarFerragem(trilhos, 4.0);
         var item2 = new Item(gaveteiro);
         System.out.println(item2.toString());
-
-
     }
 
 }

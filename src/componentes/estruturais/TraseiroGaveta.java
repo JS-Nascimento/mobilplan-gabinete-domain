@@ -27,6 +27,7 @@ public class TraseiroGaveta extends AbstractComponente {
     public void setDimensoes(double altura, double largura, double espessura, PadraoDeFitagem padraoDeFitagem) {
         this.altura = altura;
         this.profundidade = largura;
+        this.espessura = espessura;
         this.area = altura * largura;
         this.metragemFita = calcularMetragemFita(largura, altura, padraoDeFitagem);
         this.descricao = "Traseiro Gaveta: " + altura + "mm x " + largura + "mm x " + espessura

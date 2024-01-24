@@ -64,6 +64,7 @@ public class Gabinete {
             fechamento.ifPresent(value -> value.aceitar(estrategiaDeConstrucao, dimensoes.get()));
             caixa.aplicarEstrategia(estrategiaDeConstrucao, dimensoes.get(), padraoDeFitagem);
         }
+
     }
 
     public void definirAcabamentosCaixa(List<? extends Acabamento> novosAcabamentos) {
@@ -115,10 +116,20 @@ public class Gabinete {
             }
         }
 
-        fechamento.ifPresent(fechamento -> fechamento.adicionarAcabamentos(acabamentoFechamento));
+        fechamento.ifPresent(fechamento -> {
+
+            fechamento.adicionarAcabamentos(acabamentoFechamento);
+            if (fechamento instanceof Gaveta gaveta) {
+                gaveta.corpoGavetas().forEach(corpo ->
+                        corpo.componentes().forEach(componente ->
+                                componente.adicionarAcabamentos(acabamentoCaixaPadrao)));
+            }
+        });
 
         getQuantidadePorMaterial();
     }
+
+
 
     private void getQuantidadePorMaterial() {
 
