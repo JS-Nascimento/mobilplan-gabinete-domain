@@ -3,9 +3,9 @@ package componentes.fechamentos;
 import static helpers.FitaHelper.calcularMetragemFita;
 
 import componentes.AbstractComponenteFechamento;
-import componentes.Dimensoes;
-import componentes.Folgas;
-import componentes.FolgasGavetas;
+import componentes.config.Dimensoes;
+import componentes.config.Folgas;
+import componentes.config.FolgasGavetas;
 import componentes.PadraoDeFitagem;
 import estrategias.EstrategiaDeConstrucao;
 

@@ -3,16 +3,9 @@ package componentes.estruturais;
 import static helpers.FitaHelper.calcularMetragemFita;
 
 import componentes.AbstractComponente;
-import estrategias.EstrategiaDePrecificacao;
-import materiaPrima.MateriaPrima;
-import componentes.Dimensoes;
-import componentes.Estrutural;
+import componentes.config.Dimensoes;
 import componentes.PadraoDeFitagem;
 import estrategias.EstrategiaDeConstrucao;
-import helpers.FitaHelper;
-import helpers.NumberHelper;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Base extends AbstractComponente {
     public Base(PadraoDeFitagem padraoDeFitagem) {

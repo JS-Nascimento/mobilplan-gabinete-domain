@@ -3,11 +3,9 @@ package componentes.estruturais;
 import static helpers.FitaHelper.calcularMetragemFita;
 
 import componentes.AbstractComponente;
-import componentes.Dimensoes;
+import componentes.config.Dimensoes;
 import componentes.PadraoDeFitagem;
 import estrategias.EstrategiaDeConstrucao;
-import helpers.FitaHelper;
-import helpers.NumberHelper;
 
 public class Travessa extends AbstractComponente {
     private final double profundidadeEspecifica;

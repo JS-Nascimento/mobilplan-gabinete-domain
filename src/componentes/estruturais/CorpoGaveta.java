@@ -2,9 +2,9 @@ package componentes.estruturais;
 
 
 import componentes.AbstractComponente;
-import componentes.Dimensoes;
+import componentes.config.Dimensoes;
 import componentes.Estrutural;
-import componentes.FolgasGavetas;
+import componentes.config.FolgasGavetas;
 import componentes.PadraoDeFitagem;
 import estrategias.EstrategiaDeConstrucao;
 import java.util.ArrayList;

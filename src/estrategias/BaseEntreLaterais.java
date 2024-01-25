@@ -3,8 +3,8 @@ package estrategias;
 import static helpers.DescontosPadroes.descontoAlturaFrente;
 import static helpers.PortasHelper.calcularPortas;
 
-import componentes.Dimensoes;
-import componentes.Folgas;
+import componentes.config.Dimensoes;
+import componentes.config.Folgas;
 import componentes.PadraoDeFitagem;
 import componentes.estruturais.Base;
 import componentes.estruturais.ContraFrenteGaveta;
@@ -19,9 +19,8 @@ import componentes.estruturais.TraseiroGaveta;
 import componentes.estruturais.Travessa;
 import componentes.fechamentos.FrenteGaveta;
 import componentes.fechamentos.Gavetas;
+import componentes.fechamentos.Porta;
 import componentes.fechamentos.Portas;
-import componentes.fechamentos.TipoPorta;
-import helpers.PortasHelper;
 
 public class BaseEntreLaterais implements EstrategiaDeConstrucao {
 
@@ -47,8 +46,12 @@ public class BaseEntreLaterais implements EstrategiaDeConstrucao {
     public void aplicarParaPortas(Portas portas, Dimensoes dimensoes) {
 
         var listaPortas = calcularPortas(portas, dimensoes);
-
         listaPortas.forEach(portas::adicionarPorta);
+    }
+
+    @Override
+    public void aplicarParaPorta(Porta porta, Dimensoes dimensoes) {
+
     }
 
     @Override

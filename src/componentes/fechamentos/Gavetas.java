@@ -4,9 +4,9 @@ import static helpers.DescontosPadroes.verificaAlturaMinimaGaveta;
 import static helpers.NumberHelper.roundDouble;
 
 import componentes.AbstractComponenteFechamento;
-import componentes.Dimensoes;
-import componentes.Folgas;
-import componentes.FolgasGavetas;
+import componentes.config.Dimensoes;
+import componentes.config.Folgas;
+import componentes.config.FolgasGavetas;
 import componentes.PadraoDeFitagem;
 import componentes.estruturais.CorpoGaveta;
 import componentes.estruturais.TipoFundo;

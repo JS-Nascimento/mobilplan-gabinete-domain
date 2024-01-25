@@ -1,5 +1,6 @@
-package componentes;
+package componentes.config;
 
+import componentes.PadraoDeFitagem;
 import componentes.estruturais.TipoFundo;
 
 public class FolgasGavetas {

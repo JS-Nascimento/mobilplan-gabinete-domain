@@ -3,17 +3,9 @@ package componentes.estruturais;
 import static helpers.FitaHelper.calcularMetragemFita;
 
 import componentes.AbstractComponente;
-import estrategias.EstrategiaDePrecificacao;
-import helpers.FitaHelper;
-import materiaPrima.MateriaPrima;
-import materiaPrima.acabamento.Acabamento;
-import componentes.Dimensoes;
-import componentes.Estrutural;
+import componentes.config.Dimensoes;
 import componentes.PadraoDeFitagem;
 import estrategias.EstrategiaDeConstrucao;
-import helpers.NumberHelper;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Fundo extends AbstractComponente {
     private final TipoFundo tipoFundo;

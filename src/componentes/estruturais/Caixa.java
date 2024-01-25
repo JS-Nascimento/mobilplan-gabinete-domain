@@ -1,6 +1,6 @@
 package componentes.estruturais;
 
-import componentes.Dimensoes;
+import componentes.config.Dimensoes;
 import componentes.Estrutural;
 import componentes.PadraoDeFitagem;
 import estrategias.EstrategiaDeConstrucao;

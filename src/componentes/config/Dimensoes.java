@@ -1,4 +1,4 @@
-package componentes;
+package componentes.config;
 
 public class Dimensoes {
     private final double largura;

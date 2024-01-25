@@ -1,21 +1,26 @@
 package componentes.fechamentos;
 
 import componentes.AbstractComponenteFechamento;
-import componentes.Dimensoes;
-import componentes.Folgas;
 import componentes.PadraoDeFitagem;
+import componentes.config.Dimensoes;
+import componentes.config.Folgas;
 import estrategias.EstrategiaDeConstrucao;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import materiaPrima.acessorios.Puxador;
 
 public class Portas extends AbstractComponenteFechamento {
 
     private final List<Porta> portas;
     private final TipoPorta tipoPorta;
+    private Optional<Puxador> puxador;
 
-    public Portas(TipoPorta tipoPorta, double espessura, PadraoDeFitagem padraoDeFitagem) {
+    public Portas(TipoPorta tipoPorta, double espessura, PadraoDeFitagem padraoDeFitagem,
+                  Puxador puxador) {
         super(padraoDeFitagem);
         this.tipoPorta = tipoPorta;
+        this.puxador = Optional.ofNullable(puxador);
         this.espessura = espessura;
         this.portas = new ArrayList<>();
     }
@@ -28,6 +33,8 @@ public class Portas extends AbstractComponenteFechamento {
             porta.aceitar(estrategia, dimensoes);
         }
     }
+
+    //TODO: Implementar
     public Folgas folgas() {
         return new Folgas(3, 3, 3, 3, 3);
     }
@@ -39,7 +46,16 @@ public class Portas extends AbstractComponenteFechamento {
     public List<Porta> portas() {
         return portas;
     }
+
     public void adicionarPorta(Porta porta) {
         this.portas.add(porta);
+    }
+
+    public void definirPuxador(Puxador novoPuxador) {
+        this.puxador = Optional.ofNullable(novoPuxador);
+    }
+
+    public Optional<Puxador> puxador() {
+        return puxador;
     }
 }

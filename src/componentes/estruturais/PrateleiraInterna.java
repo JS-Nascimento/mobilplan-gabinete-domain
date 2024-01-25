@@ -3,17 +3,10 @@ package componentes.estruturais;
 import static helpers.FitaHelper.calcularMetragemFita;
 
 import componentes.AbstractComponente;
-import estrategias.EstrategiaDePrecificacao;
-import materiaPrima.MateriaPrima;
-import materiaPrima.acabamento.Acabamento;
-import componentes.Dimensoes;
-import componentes.Estrutural;
-import componentes.Folgas;
+import componentes.config.Dimensoes;
+import componentes.config.Folgas;
 import componentes.PadraoDeFitagem;
 import estrategias.EstrategiaDeConstrucao;
-import helpers.FitaHelper;
-import helpers.NumberHelper;
-import java.util.List;
 
 public class PrateleiraInterna extends AbstractComponente {
 

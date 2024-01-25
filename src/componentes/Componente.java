@@ -1,10 +1,9 @@
 package componentes;
 
 
+import componentes.config.Dimensoes;
 import estrategias.EstrategiaDeConstrucao;
-import estrategias.EstrategiaDePrecificacao;
 import materiaPrima.MateriaPrima;
-import materiaPrima.acabamento.Acabamento;
 import java.util.List;
 
 public interface Componente {

@@ -1,6 +1,6 @@
 package estrategias;
 
-import componentes.Dimensoes;
+import componentes.config.Dimensoes;
 import componentes.estruturais.Base;
 import componentes.estruturais.ContraFrenteGaveta;
 import componentes.estruturais.Fundo;
@@ -13,8 +13,9 @@ import componentes.estruturais.TraseiroGaveta;
 import componentes.estruturais.Travessa;
 import componentes.fechamentos.FrenteGaveta;
 import componentes.fechamentos.Gavetas;
+import componentes.fechamentos.Porta;
 import componentes.fechamentos.Portas;
-import componentes.Folgas;
+import componentes.config.Folgas;
 import componentes.PadraoDeFitagem;
 
 public interface EstrategiaDeConstrucao {
@@ -25,6 +26,8 @@ public interface EstrategiaDeConstrucao {
                                       Folgas folgas);
 
     void aplicarParaPortas(Portas portas, Dimensoes dimensoes);
+
+    void aplicarParaPorta(Porta porta, Dimensoes dimensoes);
 
     void aplicarParaTravessa(Travessa travessa, Dimensoes dimensoes, PadraoDeFitagem padraoDeFitagem);
 

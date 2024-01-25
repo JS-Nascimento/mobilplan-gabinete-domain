@@ -103,7 +103,7 @@ public class Item {
         descricao.append("====================================================================").append("\n");
         descricao.append("Componentes: ").append("\n");
 
-        subItems.sort(Comparator.comparing(subItem -> subItem.componente().getDescricao()));
+        //subItems.sort(Comparator.comparing(subItem -> subItem.componente().getDescricao()));
 
         for (SubItem subItem : subItems) {
             descricao.append(subItem.toString());
