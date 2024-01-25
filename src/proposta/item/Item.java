@@ -1,6 +1,7 @@
 package proposta.item;
 
 import componentes.Gabinete;
+import componentes.fechamentos.Gavetas;
 import helpers.NumberHelper;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -37,8 +38,22 @@ public class Item {
         });
 
         gabinete.fechamento().ifPresent(fechamento -> {
-            var subItem = new SubItem(fechamento, fechamento.getMateriasPrima());
-            this.subItems.add(subItem);
+
+            if (fechamento instanceof Gavetas gavetas) {
+                gavetas.frentes().forEach(frente -> {
+                    var subItemFrente = new SubItem(frente, frente.getMateriasPrima());
+                    this.subItems.add(subItemFrente);
+                });
+                gavetas.corpoGavetas().forEach(corpoGaveta -> {
+                    corpoGaveta.componentes().forEach(componente -> {
+                        var subItemComponente = new SubItem(componente, componente.getMateriasPrima());
+                        this.subItems.add(subItemComponente);
+                    });
+                });
+            } else {
+                var subItem = new SubItem(fechamento, fechamento.getMateriasPrima());
+                this.subItems.add(subItem);
+            }
         });
 
     }
@@ -83,15 +98,12 @@ public class Item {
     public String toString() {
         StringBuilder descricao = new StringBuilder();
 
-//        descricao.append(gabinete.descricao()).append("\n");
-//        descricao.append("====================================================================").append("\n");
-//        descricao.append("Componentes: ").append("\n");
-//        gabinete.fechamento().ifPresent(fechamento -> {
-//            descricao.append(fechamento.getDescricao()).append("\n");
-//        });
-//        gabinete.caixa().componentes().forEach(componente -> {
-//            descricao.append(componente.getDescricao()).append("\n");
-//        });
+        descricao.append("====================================================================").append("\n");
+        descricao.append("Gabinete: ").append(gabinete.descricao()).append("\n");
+        descricao.append("====================================================================").append("\n");
+        descricao.append("Componentes: ").append("\n");
+
+        subItems.sort(Comparator.comparing(subItem -> subItem.componente().getDescricao()));
 
         for (SubItem subItem : subItems) {
             descricao.append(subItem.toString());

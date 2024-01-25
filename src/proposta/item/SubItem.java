@@ -50,8 +50,8 @@ public class SubItem {
                         .append(" x ").append(materiaPrima.getPreco()).append(" = ")
                         .append(NumberHelper.formatCurrency(materiaPrima.getPreco() * NumberHelper.mmParaMetros(componente.getMetragemLinear())));
             }
-            sb.append(" ").append(materiaPrima.getUnidade().getDescricao()).append(" ");
         }
+        sb.append('\n');
         sb.append('\n');
         return sb.toString();
     }

@@ -1,6 +1,7 @@
 package estrategias;
 
 import static helpers.DescontosPadroes.descontoAlturaFrente;
+import static helpers.PortasHelper.calcularPortas;
 
 import componentes.Dimensoes;
 import componentes.Folgas;
@@ -17,9 +18,10 @@ import componentes.estruturais.TipoPrateleira;
 import componentes.estruturais.TraseiroGaveta;
 import componentes.estruturais.Travessa;
 import componentes.fechamentos.FrenteGaveta;
-import componentes.fechamentos.Gaveta;
-import componentes.fechamentos.Porta;
+import componentes.fechamentos.Gavetas;
+import componentes.fechamentos.Portas;
 import componentes.fechamentos.TipoPorta;
+import helpers.PortasHelper;
 
 public class BaseEntreLaterais implements EstrategiaDeConstrucao {
 
@@ -42,21 +44,11 @@ public class BaseEntreLaterais implements EstrategiaDeConstrucao {
     }
 
     @Override
-    public void aplicarParaPorta(Porta porta, Dimensoes dimensoes,
-                                 PadraoDeFitagem padraoDeFitagem, TipoPorta tipoPorta, Folgas folgas) {
+    public void aplicarParaPortas(Portas portas, Dimensoes dimensoes) {
 
-        if (tipoPorta == TipoPorta.PORTA_DUPLA) {
-            double largura =
-                    (dimensoes.getLargura() - folgas.entreComponentes() - folgas.direita() - folgas.esquerda()) / 2;
-            double altura = dimensoes.getAltura() - folgas.superior() - folgas.inferior();
-            porta.setDimensoes(largura, altura, dimensoes.getEspessura(), padraoDeFitagem);
-            return;
-        }
+        var listaPortas = calcularPortas(portas, dimensoes);
 
-        double largura = dimensoes.getLargura() - folgas.direita() - folgas.esquerda();
-        double altura = dimensoes.getAltura() - folgas.superior() - folgas.inferior();
-
-        porta.setDimensoes(largura, altura, dimensoes.getEspessura(), padraoDeFitagem);
+        listaPortas.forEach(portas::adicionarPorta);
     }
 
     @Override
@@ -127,22 +119,22 @@ public class BaseEntreLaterais implements EstrategiaDeConstrucao {
     }
 
     @Override
-    public void aplicarParaGaveta(Gaveta gaveta, Dimensoes dimensoes,
+    public void aplicarParaGaveta(Gavetas gavetas, Dimensoes dimensoes,
                                   PadraoDeFitagem padraoDeFitagem) {
 
-        gaveta.alturaDeTodasAsFrentes().forEach(frente -> {
+        gavetas.alturaDeTodasAsFrentes().forEach(frente -> {
             var novaFrenteGaveta = new FrenteGaveta(
-                    descontoAlturaFrente(gaveta.tipoFrente(), frente),
-                    gaveta.espessura(),
-                    gaveta.tipoFrente(),
-                    gaveta.folgas(),
-                    gaveta.folgasGavetas(),
-                    gaveta.getPadraoDeFitagem());
-            gaveta.adicionarFrenteGaveta(novaFrenteGaveta);
+                    descontoAlturaFrente(gavetas.tipoFrente(), frente),
+                    gavetas.espessura(),
+                    gavetas.tipoFrente(),
+                    gavetas.folgas(),
+                    gavetas.folgasGavetas(),
+                    gavetas.getPadraoDeFitagem());
+            gavetas.adicionarFrenteGaveta(novaFrenteGaveta);
 
-            var corpoGaveta = new CorpoGaveta(dimensoes, gaveta.folgasGavetas(),
-                    (frente - gaveta.folgasGavetas().corpoEmRelacaoFrente()));
-            gaveta.adicionarCorpoGaveta(corpoGaveta);
+            var corpoGaveta = new CorpoGaveta(dimensoes, gavetas.folgasGavetas(),
+                    (frente - gavetas.folgasGavetas().corpoEmRelacaoFrente()));
+            gavetas.adicionarCorpoGaveta(corpoGaveta);
         });
 
     }

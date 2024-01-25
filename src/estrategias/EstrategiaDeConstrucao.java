@@ -12,9 +12,8 @@ import componentes.estruturais.TipoPrateleira;
 import componentes.estruturais.TraseiroGaveta;
 import componentes.estruturais.Travessa;
 import componentes.fechamentos.FrenteGaveta;
-import componentes.fechamentos.Gaveta;
-import componentes.fechamentos.Porta;
-import componentes.fechamentos.TipoPorta;
+import componentes.fechamentos.Gavetas;
+import componentes.fechamentos.Portas;
 import componentes.Folgas;
 import componentes.PadraoDeFitagem;
 
@@ -25,8 +24,7 @@ public interface EstrategiaDeConstrucao {
                                       PadraoDeFitagem padraoDeFitagem, TipoPrateleira tipoPrateleira,
                                       Folgas folgas);
 
-    void aplicarParaPorta(Porta porta, Dimensoes dimensoes,
-                          PadraoDeFitagem padraoDeFitagem, TipoPorta tipoPorta, Folgas folgas);
+    void aplicarParaPortas(Portas portas, Dimensoes dimensoes);
 
     void aplicarParaTravessa(Travessa travessa, Dimensoes dimensoes, PadraoDeFitagem padraoDeFitagem);
 
@@ -43,7 +41,7 @@ public interface EstrategiaDeConstrucao {
 
     void aplicarParaTraseiroGaveta(TraseiroGaveta traseiroGaveta, Dimensoes dimensoes, PadraoDeFitagem padraoDeFitagem);
 
-    void aplicarParaGaveta(Gaveta gaveta, Dimensoes dimensoes, PadraoDeFitagem padraoDeFitagem);
+    void aplicarParaGaveta(Gavetas gavetas, Dimensoes dimensoes, PadraoDeFitagem padraoDeFitagem);
 
     void aplicarParaFrenteGaveta(FrenteGaveta gaveta, Dimensoes dimensoes, PadraoDeFitagem padraoDeFitagem);
 }

@@ -5,7 +5,6 @@ import static helpers.NumberHelper.roundDouble;
 
 import componentes.AbstractComponenteFechamento;
 import componentes.Dimensoes;
-import componentes.Estrutural;
 import componentes.Folgas;
 import componentes.FolgasGavetas;
 import componentes.PadraoDeFitagem;
@@ -14,9 +13,8 @@ import componentes.estruturais.TipoFundo;
 import estrategias.EstrategiaDeConstrucao;
 import java.util.ArrayList;
 import java.util.List;
-import materiaPrima.MateriaPrima;
 
-public class Gaveta extends AbstractComponenteFechamento {
+public class Gavetas extends AbstractComponenteFechamento {
 
     private final Folgas folgas;
     private final FolgasGavetas folgasGavetas;
@@ -27,11 +25,11 @@ public class Gaveta extends AbstractComponenteFechamento {
     private final List<CorpoGaveta> corpoGavetas;
     private final TipoFrente tipoFrente;
 
-    public Gaveta(final TipoFrente tipoFrente,
-                  final int quantidadeGavetas,
-                  List<Double> alturasDasFrentes,
-                  final PadraoDeFitagem padraoDeFitagem,
-                  double espessura) {
+    public Gavetas(final TipoFrente tipoFrente,
+                   final int quantidadeGavetas,
+                   List<Double> alturasDasFrentes,
+                   final PadraoDeFitagem padraoDeFitagem,
+                   double espessura) {
         super(padraoDeFitagem);
         this.quantidadeGavetas = quantidadeGavetas;
         this.alturasDasFrentes = alturasDasFrentes;
@@ -159,5 +157,4 @@ public class Gaveta extends AbstractComponenteFechamento {
     public void adicionarCorpoGaveta(CorpoGaveta corpoGaveta) {
         this.corpoGavetas.add(corpoGaveta);
     }
-
 }

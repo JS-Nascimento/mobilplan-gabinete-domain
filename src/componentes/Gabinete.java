@@ -1,8 +1,8 @@
 package componentes;
 
 import componentes.estruturais.Caixa;
-import componentes.fechamentos.Gaveta;
-import componentes.fechamentos.Porta;
+import componentes.fechamentos.Gavetas;
+import componentes.fechamentos.Portas;
 import estrategias.EstrategiaDeConstrucao;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -118,44 +118,94 @@ public class Gabinete {
 
         fechamento.ifPresent(fechamento -> {
 
-            fechamento.adicionarAcabamentos(acabamentoFechamento);
-            if (fechamento instanceof Gaveta gaveta) {
-                gaveta.corpoGavetas().forEach(corpo ->
-                        corpo.componentes().forEach(componente ->
-                                componente.adicionarAcabamentos(acabamentoCaixaPadrao)));
+            if (fechamento instanceof Gavetas gavetas) {
+                gavetas.frentes().forEach(frente -> {
+                    frente.adicionarAcabamentos(acabamentoFechamento);
+                });
+                gavetas.corpoGavetas().forEach(corpo -> {
+                    for (Estrutural componente : corpo.componentes()) {
+                        Class<? extends Estrutural> tipoComponente = componente.getClass();
+
+                        List<MateriaPrima> acabamentosEspecificos = acabamentosCaixaEspecificos.get(tipoComponente);
+
+                        if (acabamentosEspecificos != null && !acabamentosEspecificos.isEmpty()) {
+                            // Se existirem acabamentos específicos, aplica-os
+                            componente.adicionarAcabamentos(acabamentosEspecificos);
+                        } else if (acabamentoCaixaPadrao != null && !acabamentoCaixaPadrao.isEmpty()) {
+                            // Se não, aplica todos os acabamentos padrão (se houver)
+                            componente.adicionarAcabamentos(acabamentoCaixaPadrao);
+                        }
+                    }
+                });
+            } else {
+                fechamento.adicionarAcabamentos(acabamentoFechamento);
             }
         });
+            getQuantidadePorMaterial();
 
-        getQuantidadePorMaterial();
     }
+        private void getQuantidadePorMaterial () {
 
+            Map<MateriaPrima, Double> quantidadePorMaterial = new HashMap<>();
+            caixa.componentes().forEach(componente ->
+                    componente.getMateriasPrima().forEach(materiaPrima -> {
+                        double quantidade = 0.0;
+                        switch (materiaPrima.getUnidade()) {
+                            case METRO_QUADRADO -> quantidade = componente.getArea();
+                            case METRO_LINEAR -> quantidade = componente.getMetragemLinear();
+                        }
+                        if (quantidadePorMaterial.containsKey(materiaPrima)) {
+                            quantidadePorMaterial.put(materiaPrima,
+                                    quantidadePorMaterial.get(materiaPrima) + quantidade);
+                        } else {
+                            quantidadePorMaterial.put(materiaPrima, quantidade);
+                        }
+                    }));
 
+            fechamento.ifPresent(fechamento -> {
+                if (fechamento instanceof Gavetas gavetas) {
+                    gavetas.frentes().forEach(frente -> {
+                        frente.getMateriasPrima().forEach(materiaPrima -> {
+                            double quantidade = 0.0;
+                            switch (materiaPrima.getUnidade()) {
+                                case METRO_QUADRADO -> quantidade = frente.getArea();
+                                case METRO_LINEAR -> quantidade = frente.getMetragemLinear();
+                            }
+                            if (quantidadePorMaterial.containsKey(materiaPrima)) {
+                                quantidadePorMaterial.put(materiaPrima,
+                                        quantidadePorMaterial.get(materiaPrima) + quantidade);
+                            } else {
+                                quantidadePorMaterial.put(materiaPrima, quantidade);
+                            }
 
-    private void getQuantidadePorMaterial() {
+                        });
+                    });
 
-        Map<MateriaPrima, Double> quantidadePorMaterial = new HashMap<>();
-        caixa.componentes().forEach(componente ->
-                componente.getMateriasPrima().forEach(materiaPrima -> {
-                    double quantidade = 0.0;
-                    switch (materiaPrima.getUnidade()) {
-                        case METRO_QUADRADO -> quantidade = componente.getArea();
-                        case METRO_LINEAR -> quantidade = componente.getMetragemLinear();
-                    }
-                    if (quantidadePorMaterial.containsKey(materiaPrima)) {
-                        quantidadePorMaterial.put(materiaPrima, quantidadePorMaterial.get(materiaPrima) + quantidade);
-                    } else {
-                        quantidadePorMaterial.put(materiaPrima, quantidade);
-                    }
-                }));
+                    gavetas.corpoGavetas().forEach(corpo -> {
+                        corpo.componentes().forEach(componente -> {
+                            componente.getMateriasPrima().forEach(materiaPrima -> {
+                                double quantidade = 0.0;
+                                switch (materiaPrima.getUnidade()) {
+                                    case METRO_QUADRADO -> quantidade = componente.getArea();
+                                    case METRO_LINEAR -> quantidade = componente.getMetragemLinear();
+                                }
+                                if (quantidadePorMaterial.containsKey(materiaPrima)) {
+                                    quantidadePorMaterial.put(materiaPrima,
+                                            quantidadePorMaterial.get(materiaPrima) + quantidade);
+                                } else {
+                                    quantidadePorMaterial.put(materiaPrima, quantidade);
+                                }
+                            });
+                        });
+                    });
+                }
+                if (fechamento instanceof Portas portas) {
 
-        fechamento.ifPresent(fechamento -> {
-            if (fechamento instanceof Gaveta gaveta) {
-                gaveta.frentes().forEach(frente -> {
                     fechamento.getMateriasPrima().forEach(materiaPrima -> {
                         double quantidade = 0.0;
                         switch (materiaPrima.getUnidade()) {
-                            case METRO_QUADRADO -> quantidade = frente.getArea();
-                            case METRO_LINEAR -> quantidade = frente.getMetragemLinear();
+                            case METRO_QUADRADO -> quantidade = fechamento.getArea();
+                            case METRO_LINEAR -> quantidade = fechamento.getMetragemLinear();
                         }
                         if (quantidadePorMaterial.containsKey(materiaPrima)) {
                             quantidadePorMaterial.put(materiaPrima,
@@ -165,86 +215,50 @@ public class Gabinete {
                         }
 
                     });
-                });
+                }
 
-                gaveta.corpoGavetas().forEach(corpo -> {
-                    corpo.componentes().forEach(componente -> {
-                        componente.getMateriasPrima().forEach(materiaPrima -> {
-                            double quantidade = 0.0;
-                            switch (materiaPrima.getUnidade()) {
-                                case METRO_QUADRADO -> quantidade = componente.getArea();
-                                case METRO_LINEAR -> quantidade = componente.getMetragemLinear();
-                            }
-                            if (quantidadePorMaterial.containsKey(materiaPrima)) {
-                                quantidadePorMaterial.put(materiaPrima,
-                                        quantidadePorMaterial.get(materiaPrima) + quantidade);
-                            } else {
-                                quantidadePorMaterial.put(materiaPrima, quantidade);
-                            }
-                        });
-                    });
-                });
-            }
-            if (fechamento instanceof Porta porta) {
+            });
 
-                fechamento.getMateriasPrima().forEach(materiaPrima -> {
-                    double quantidade = 0.0;
-                    switch (materiaPrima.getUnidade()) {
-                        case METRO_QUADRADO -> quantidade = fechamento.getArea();
-                        case METRO_LINEAR -> quantidade = fechamento.getMetragemLinear();
-                    }
-                    if (quantidadePorMaterial.containsKey(materiaPrima)) {
-                        quantidadePorMaterial.put(materiaPrima,
-                                quantidadePorMaterial.get(materiaPrima) + quantidade);
-                    } else {
-                        quantidadePorMaterial.put(materiaPrima, quantidade);
-                    }
-
-                });
-            }
-
-        });
-
-        this.acabamentos.putAll(quantidadePorMaterial);
-    }
-
-    public Optional<Dimensoes> getDimensoesInternas() {
-        return dimensoesInternas;
-    }
-
-    public Optional<Dimensoes> getDimensoes() {
-        return dimensoes;
-    }
-
-    public Caixa caixa() {
-        return caixa;
-    }
-
-    public Optional<Fechamento> fechamento() {
-        return fechamento;
-    }
-
-    public Map<Ferragem, Double> ferragens() {
-        return ferragens;
-    }
-
-    public Map<MateriaPrima, Double> acabamentos() {
-        return acabamentos;
-    }
-
-    public String descricao() {
-        String descricao = "Gabinete - ";
-
-        if (fechamento.isPresent()) {
-            descricao = descricao + fechamento.get().getDescricaoCurta() + " - ";
-        }
-        if (dimensoes.isPresent()) {
-            descricao =
-                    descricao + dimensoes.get().getLargura() + "mm x " + dimensoes.get().getProfundidade() +
-                            "mm x " +
-                            dimensoes.get().getAltura() + "mm";
+            this.acabamentos.putAll(quantidadePorMaterial);
         }
 
-        return descricao;
+        public Optional<Dimensoes> getDimensoesInternas () {
+            return dimensoesInternas;
+        }
+
+        public Optional<Dimensoes> getDimensoes () {
+            return dimensoes;
+        }
+
+        public Caixa caixa () {
+            return caixa;
+        }
+
+        public Optional<Fechamento> fechamento () {
+            return fechamento;
+        }
+
+        public Map<Ferragem, Double> ferragens () {
+            return ferragens;
+        }
+
+        public Map<MateriaPrima, Double> acabamentos () {
+            return acabamentos;
+        }
+
+        public String descricao () {
+            String descricao = "Gabinete - ";
+
+            if (fechamento.isPresent()) {
+                descricao = descricao + fechamento.get().getDescricaoCurta() + " - ";
+            }
+            if (dimensoes.isPresent()) {
+                descricao =
+                        descricao + dimensoes.get().getLargura() + "mm x " + dimensoes.get().getProfundidade() +
+                                "mm x " +
+                                dimensoes.get().getAltura() + "mm";
+            }
+
+            return descricao;
+        }
     }
-}

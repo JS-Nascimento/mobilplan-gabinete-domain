@@ -8,8 +8,6 @@ import componentes.Folgas;
 import componentes.FolgasGavetas;
 import componentes.PadraoDeFitagem;
 import estrategias.EstrategiaDeConstrucao;
-import helpers.FitaHelper;
-import helpers.NumberHelper;
 
 public class FrenteGaveta extends AbstractComponenteFechamento {
 
@@ -37,13 +35,7 @@ public class FrenteGaveta extends AbstractComponenteFechamento {
         this.profundidade = profundidade;
         this.area = (largura * profundidade) ;
         this.metragemFita = calcularMetragemFita(largura, profundidade, padraoDeFitagem) ;
-        this.descricao = setDescricao(area, metragemFita, largura, profundidade, espessura);
-    }
-
-    private String setDescricao(double area, double metragemFita, double largura, double profundidade, double espessura) {
-        return "Frente de Gaveta: "+ tipoFrente + " - " + largura + "mm x " + profundidade + "mm x " + espessura +
-                "mm (" + NumberHelper.mmSqParaMetrosSq(area) + " m²) - Metragem Fita: " +
-                NumberHelper.mmParaMetros(metragemFita) + "m x " + FitaHelper.larguraDaFita(espessura) + "mm";
+        this.descricao = "Frente de Gaveta " + tipoFrente.toString();
     }
 
     public TipoFrente tipoFrente() {
