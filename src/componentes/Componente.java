@@ -18,4 +18,5 @@ public interface Componente {
     double largura();
     double profundidade();
     double espessura();
+
 }

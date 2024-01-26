@@ -2,6 +2,8 @@ package proposta.item;
 
 import componentes.Gabinete;
 import componentes.fechamentos.Gavetas;
+import componentes.fechamentos.Porta;
+import componentes.fechamentos.Portas;
 import helpers.NumberHelper;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -50,9 +52,13 @@ public class Item {
                         this.subItems.add(subItemComponente);
                     });
                 });
-            } else {
-                var subItem = new SubItem(fechamento, fechamento.getMateriasPrima());
-                this.subItems.add(subItem);
+            } else if (fechamento instanceof Portas portas) {
+                portas.portas().forEach(porta -> {
+                    var subItemFrente = new SubItem(porta, porta.getMateriasPrima());
+                    this.subItems.add(subItemFrente);
+                });
+//                var subItem = new SubItem(fechamento, fechamento.getMateriasPrima());
+//                this.subItems.add(subItem);
             }
         });
 

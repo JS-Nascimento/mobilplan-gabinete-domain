@@ -1,6 +1,8 @@
 package componentes.fechamentos;
 
 import componentes.AbstractComponenteFechamento;
+import componentes.Fechamento;
+import componentes.Gabinete;
 import componentes.PadraoDeFitagem;
 import componentes.config.Dimensoes;
 import componentes.config.Folgas;
@@ -10,11 +12,10 @@ import java.util.List;
 import java.util.Optional;
 import materiaPrima.acessorios.Puxador;
 
-public class Portas extends AbstractComponenteFechamento {
+public class Portas extends AbstractComponenteFechamento{
 
     private final List<Porta> portas;
     private final TipoPorta tipoPorta;
-    private Optional<Puxador> puxador;
 
     public Portas(TipoPorta tipoPorta, double espessura, PadraoDeFitagem padraoDeFitagem,
                   Puxador puxador) {
@@ -28,8 +29,10 @@ public class Portas extends AbstractComponenteFechamento {
     @Override
     public void aceitar(EstrategiaDeConstrucao estrategia, Dimensoes dimensoes) {
         estrategia.aplicarParaPortas(this, dimensoes);
+        this.estrategia = estrategia;
 
         for (Porta porta : portas) {
+            porta.setGabinete(this.gabinete);
             porta.aceitar(estrategia, dimensoes);
         }
     }
@@ -51,11 +54,25 @@ public class Portas extends AbstractComponenteFechamento {
         this.portas.add(porta);
     }
 
-    public void definirPuxador(Puxador novoPuxador) {
+    public void definirPuxador(Puxador novoPuxador, Gabinete gabinete) {
+        this.gabinete = gabinete;
         this.puxador = Optional.ofNullable(novoPuxador);
+
+        gabinete.getDimensoes().ifPresent(dimensoes -> {
+            this.aceitar(estrategia, dimensoes);
+
+            for (Porta porta : portas) {
+                porta.setGabinete(this.gabinete);
+                porta.aceitar(estrategia, dimensoes);
+            }
+        });
     }
 
-    public Optional<Puxador> puxador() {
+
+
+    @Override
+    public Optional<Puxador> getPuxador() {
         return puxador;
     }
+
 }

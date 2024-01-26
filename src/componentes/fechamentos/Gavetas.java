@@ -4,6 +4,7 @@ import static helpers.DescontosPadroes.verificaAlturaMinimaGaveta;
 import static helpers.NumberHelper.roundDouble;
 
 import componentes.AbstractComponenteFechamento;
+import componentes.Fechamento;
 import componentes.config.Dimensoes;
 import componentes.config.Folgas;
 import componentes.config.FolgasGavetas;
@@ -13,8 +14,10 @@ import componentes.estruturais.TipoFundo;
 import estrategias.EstrategiaDeConstrucao;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import materiaPrima.acessorios.Puxador;
 
-public class Gavetas extends AbstractComponenteFechamento {
+public class Gavetas extends AbstractComponenteFechamento{
 
     private final Folgas folgas;
     private final FolgasGavetas folgasGavetas;
@@ -24,6 +27,8 @@ public class Gavetas extends AbstractComponenteFechamento {
     private final List<FrenteGaveta> frenteGavetas;
     private final List<CorpoGaveta> corpoGavetas;
     private final TipoFrente tipoFrente;
+    private Optional<Puxador> puxador;
+
 
     public Gavetas(final TipoFrente tipoFrente,
                    final int quantidadeGavetas,
@@ -156,5 +161,10 @@ public class Gavetas extends AbstractComponenteFechamento {
     }
     public void adicionarCorpoGaveta(CorpoGaveta corpoGaveta) {
         this.corpoGavetas.add(corpoGaveta);
+    }
+
+    @Override
+    public Optional<Puxador> getPuxador() {
+        return puxador;
     }
 }

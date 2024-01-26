@@ -1,8 +1,9 @@
 package estrategias;
 
 import static helpers.DescontosPadroes.descontoAlturaFrente;
-import static helpers.PortasHelper.calcularPortas;
+import static helpers.FechamentosHelper.calcularPortas;
 
+import componentes.Gabinete;
 import componentes.config.Dimensoes;
 import componentes.config.Folgas;
 import componentes.PadraoDeFitagem;
@@ -17,10 +18,11 @@ import componentes.estruturais.PrateleiraInterna;
 import componentes.estruturais.TipoPrateleira;
 import componentes.estruturais.TraseiroGaveta;
 import componentes.estruturais.Travessa;
+import componentes.fechamentos.ComPuxador;
 import componentes.fechamentos.FrenteGaveta;
 import componentes.fechamentos.Gavetas;
-import componentes.fechamentos.Porta;
 import componentes.fechamentos.Portas;
+import java.util.Map;
 
 public class BaseEntreLaterais implements EstrategiaDeConstrucao {
 
@@ -50,8 +52,41 @@ public class BaseEntreLaterais implements EstrategiaDeConstrucao {
     }
 
     @Override
-    public void aplicarParaPorta(Porta porta, Dimensoes dimensoes) {
+    public void aplicarParaPuxador(ComPuxador fechamento, Dimensoes dimensoes, Gabinete gabinete) {
 
+        fechamento.getPuxador().ifPresent(puxador -> {
+            if (puxador.isPerfil()) {
+                switch (puxador.getDirecao()) {
+                    case HORIZONTAL -> {
+                        var altura = fechamento.altura() - puxador.getDimensoesAcessorio().altura();
+                        var quantidadePuxador = Map.of(puxador, fechamento.largura());
+                        gabinete.adicionarFerragem(puxador, fechamento.largura());
+                        fechamento.setDimensoes(
+                                altura,
+                                fechamento.largura(),
+                                fechamento.espessura(),
+                                fechamento.getPadraoDeFitagem());
+
+                    }
+                    case VERTICAL -> {
+                        var largura = fechamento.largura() - puxador.getDimensoesAcessorio().altura();
+                        gabinete.adicionarFerragem(puxador, fechamento.altura());
+                        fechamento.setDimensoes(
+                                fechamento.altura(),
+                                largura,
+                                fechamento.espessura(),
+                                fechamento.getPadraoDeFitagem());
+                    }
+                }
+            } else {
+                gabinete.adicionarFerragem(puxador, 1.0);
+                fechamento.setDimensoes(
+                        fechamento.altura(),
+                        fechamento.largura(),
+                        fechamento.espessura(),
+                        fechamento.getPadraoDeFitagem());
+            }
+        });
     }
 
     @Override

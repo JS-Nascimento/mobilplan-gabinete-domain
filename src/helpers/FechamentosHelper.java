@@ -3,13 +3,14 @@ package helpers;
 import static componentes.fechamentos.TipoPorta.PORTA_DIREITA;
 import static componentes.fechamentos.TipoPorta.PORTA_ESQUERDA;
 
+import componentes.Fechamento;
 import componentes.config.Dimensoes;
 import componentes.fechamentos.Porta;
 import componentes.fechamentos.Portas;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PortasHelper {
+public class FechamentosHelper {
 
     public static List<Porta> calcularPortas(Portas portas, Dimensoes dimensoes) {
 
@@ -32,7 +33,7 @@ public class PortasHelper {
                                 portas.getPadraoDeFitagem(),
                                 PORTA_ESQUERDA,
                                 folgas,
-                                portas.puxador().orElse(null)
+                                portas.getPuxador().orElseGet(() -> null)
                         )
                 );
                 portasList.add(
@@ -43,30 +44,24 @@ public class PortasHelper {
                                 portas.getPadraoDeFitagem(),
                                 PORTA_DIREITA,
                                 folgas,
-                                portas.puxador().orElse(null)
+                                portas.getPuxador().orElseGet(() -> null)
                         )
                 );
-
-                return portasList;
             }
             case PORTA_DIREITA, PORTA_ESQUERDA -> {
 
                 portasList.add(new Porta(altura, largura, portas.espessura(), portas.getPadraoDeFitagem(),
                         portas.tipoPorta(), folgas,
-                        portas.puxador().orElse(null)));
-
-                return portasList;
+                        portas.getPuxador().orElseGet(() -> null)));
             }
 
             case PORTA_BASCULA, PORTA_BASCULA_INVERSA -> {
 
                 portasList.add(new Porta(largura, altura, portas.espessura(), portas.getPadraoDeFitagem(),
                         portas.tipoPorta(), folgas,
-                        portas.puxador().orElse(null)));
+                        portas.getPuxador().orElseGet(() -> null)));
 
-                return portasList;
             }
-            //TODO: Implementar para outros tipos de portas
         }
         return portasList;
     }

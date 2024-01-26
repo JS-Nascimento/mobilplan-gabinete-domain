@@ -22,6 +22,7 @@ import materiaPrima.acabamento.CalculaPorLado;
 import materiaPrima.acabamento.DimensoesChapa;
 import materiaPrima.acabamento.FitaDeBorda;
 import materiaPrima.acabamento.Mdf;
+import materiaPrima.acessorios.Direcao;
 import materiaPrima.acessorios.Ferragem;
 import materiaPrima.acessorios.Puxador;
 import proposta.item.Item;
@@ -125,9 +126,10 @@ public class Main {
 
         var puxador = new Puxador(
                 false,
+                Direcao.HORIZONTAL,
                 TipoPuxador.PUXADOR_ALCA,
                 "Puxador Haste",
-                "Inox Escovado",
+                "Inox Escovado 224mm",
                 new DimensoesAcessorio(250, 20, 30),
                 9.90
         );

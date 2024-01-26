@@ -7,6 +7,7 @@ import materiaPrima.acabamento.Unidade;
 public class Puxador implements Acessorio {
 
     private final boolean perfil;
+    private final Direcao direcao;
     private final TipoPuxador tipoPuxador;
     private final String descricao;
     private final String cor;
@@ -14,8 +15,9 @@ public class Puxador implements Acessorio {
     private final DimensoesAcessorio dimensoesAcessorio;
     private final double preco;
 
-    public Puxador(boolean perfil, TipoPuxador tipoPuxador, String descricao, String cor, DimensoesAcessorio dimensoesAcessorio, double preco) {
+    public Puxador(boolean perfil, Direcao direcao, TipoPuxador tipoPuxador, String descricao, String cor, DimensoesAcessorio dimensoesAcessorio, double preco) {
         this.perfil = perfil;
+        this.direcao = direcao;
         this.tipoPuxador = tipoPuxador;
         this.descricao = descricao;
         this.cor = cor;
@@ -54,5 +56,9 @@ public class Puxador implements Acessorio {
 
     public boolean isPerfil() {
         return perfil;
+    }
+
+    public Direcao getDirecao() {
+        return direcao;
     }
 }

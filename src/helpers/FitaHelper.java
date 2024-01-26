@@ -19,7 +19,7 @@ public class FitaHelper {
         };
     }
 
-    public static double calcularMetragemFita(double largura, double profundidade, PadraoDeFitagem padraoDeFitagem) {
+    public static double calcularMetragemFita(double altura, double largura, PadraoDeFitagem padraoDeFitagem) {
 
         if (isNull(padraoDeFitagem)) {
             return 0.0;
@@ -27,12 +27,12 @@ public class FitaHelper {
 
         return switch (padraoDeFitagem) {
             case NENHUM -> 0.0;
-            case UMA_ALTURA -> largura;
-            case UMA_ALTURA_UMA_LARGURA -> largura + profundidade;
-            case UMA_ALTURA_DUAS_LARGURAS -> largura + profundidade * 2;
-            case DUAS_ALTURAS -> largura * 2;
-            case DUAS_ALTURAS_UMA_LARGURA -> (largura * 2) + profundidade;
-            case QUATRO_LADOS -> (largura + profundidade) * 2;
+            case UMA_ALTURA -> altura;
+            case UMA_ALTURA_UMA_LARGURA -> altura + largura;
+            case UMA_ALTURA_DUAS_LARGURAS -> altura + (largura * 2);
+            case DUAS_ALTURAS -> altura * 2;
+            case DUAS_ALTURAS_UMA_LARGURA -> (altura * 2) + largura;
+            case QUATRO_LADOS -> (largura + altura) * 2;
         };
     }
 }
