@@ -1,7 +1,9 @@
 package componentes.fechamentos;
 
 import componentes.Fechamento;
+import componentes.Gabinete;
 import componentes.PadraoDeFitagem;
+import materiaPrima.acessorios.Puxador;
 
 public interface ComPuxador extends Fechamento {
 

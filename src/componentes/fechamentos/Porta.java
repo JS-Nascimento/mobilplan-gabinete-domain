@@ -42,7 +42,6 @@ public class Porta extends AbstractComponenteFechamento implements ComPuxador{
 
         puxador.ifPresent(puxador -> {
             if (!this.materiaPrimas().contains(puxador)){
-
                 this.materiaPrimas().add(puxador);
             }
         });

@@ -1,7 +1,6 @@
 package componentes.fechamentos;
 
 import componentes.AbstractComponenteFechamento;
-import componentes.Fechamento;
 import componentes.Gabinete;
 import componentes.PadraoDeFitagem;
 import componentes.config.Dimensoes;
@@ -31,10 +30,10 @@ public class Portas extends AbstractComponenteFechamento{
         estrategia.aplicarParaPortas(this, dimensoes);
         this.estrategia = estrategia;
 
-        for (Porta porta : portas) {
+        portas.forEach(porta -> {
             porta.setGabinete(this.gabinete);
             porta.aceitar(estrategia, dimensoes);
-        }
+        });
     }
 
     //TODO: Implementar
@@ -59,16 +58,19 @@ public class Portas extends AbstractComponenteFechamento{
         this.puxador = Optional.ofNullable(novoPuxador);
 
         gabinete.getDimensoes().ifPresent(dimensoes -> {
-            this.aceitar(estrategia, dimensoes);
 
             for (Porta porta : portas) {
+                removerPuxador(novoPuxador);
                 porta.setGabinete(this.gabinete);
-                porta.aceitar(estrategia, dimensoes);
             }
         });
     }
 
-
+    private void removerPuxador(Puxador puxador) {
+        if (materiaPrimas().contains(puxador)) {
+            materiaPrimas().remove(puxador);
+        }
+    }
 
     @Override
     public Optional<Puxador> getPuxador() {

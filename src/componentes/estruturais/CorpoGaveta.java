@@ -19,8 +19,9 @@ public class CorpoGaveta extends AbstractComponente {
         super(folgas.padraoDeFitagem());
         this.folgas = folgas;
         this.altura = altura;
-        this.espessura =  folgas.espessuraCorpo();
+        this.espessura = folgas.espessuraCorpo();
         this.componentesEstruturais = new ArrayList<>();
+        //TODO: Refatorar Largura para ser calculada
         this.largura = 350.0;
 
         this.componentesEstruturais.add(new FundoGaveta(folgas, PadraoDeFitagem.NENHUM));

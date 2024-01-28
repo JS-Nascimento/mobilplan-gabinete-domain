@@ -22,11 +22,11 @@ public class LateralGaveta extends AbstractComponente {
         estrategia.aplicarParaLateralGaveta(this, dimensoes, this.padraoDeFitagem);
     }
 
-    public void setDimensoes(double altura, double profundidade, double espessura, PadraoDeFitagem padraoDeFitagem) {
+    public void setDimensoes(double altura, double largura, double espessura, PadraoDeFitagem padraoDeFitagem) {
         this.altura = altura;
-        this.profundidade = profundidade;
-        this.area = altura * profundidade;
-        this.metragemFita = calcularMetragemFita(altura, profundidade, padraoDeFitagem);
+        this.largura = largura;
+        this.area = altura * largura;
+        this.metragemFita = calcularMetragemFita(largura, altura, padraoDeFitagem);
         this.descricao = "Lateral Gaveta" ;
     }
 }

@@ -24,7 +24,7 @@ public class ContraFrenteGaveta extends AbstractComponente {
 
     public void setDimensoes(double altura, double largura, double espessura, PadraoDeFitagem padraoDeFitagem) {
         this.altura = altura;
-        this.profundidade = largura;
+        this.largura = largura;
         this.espessura = espessura;
         this.area = altura * largura;
         this.metragemFita = calcularMetragemFita(largura, altura, padraoDeFitagem);

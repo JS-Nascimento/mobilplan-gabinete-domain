@@ -16,12 +16,12 @@ public class Lateral extends AbstractComponente {
         estrategia.aplicarParaLateral(this, dimensoes, this.padraoDeFitagem);
     }
 
-    public void setDimensoes(double altura, double profundidade, double espessura, PadraoDeFitagem padraoDeFitagem) {
+    public void setDimensoes(double altura, double largura, double espessura, PadraoDeFitagem padraoDeFitagem) {
         this.altura = altura;
-        this.profundidade = profundidade;
-        this.area = altura * profundidade;
+        this.largura = largura;
+        this.area = altura * largura;
         this.espessura = espessura;
-        this.metragemFita = calcularMetragemFita(altura, profundidade, padraoDeFitagem);
+        this.metragemFita = calcularMetragemFita(altura, largura, padraoDeFitagem);
         this.descricao = "Lateral";
     }
 }

@@ -1,14 +1,16 @@
 package estrategias;
 
 import static helpers.DescontosPadroes.descontoAlturaFrente;
+import static helpers.FechamentosHelper.calcularAlturasDasFrentes;
 import static helpers.FechamentosHelper.calcularPortas;
 
 import componentes.Gabinete;
+import componentes.PadraoDeFitagem;
 import componentes.config.Dimensoes;
 import componentes.config.Folgas;
-import componentes.PadraoDeFitagem;
 import componentes.estruturais.Base;
 import componentes.estruturais.ContraFrenteGaveta;
+import componentes.estruturais.CorpoGaveta;
 import componentes.estruturais.Fundo;
 import componentes.estruturais.FundoGaveta;
 import componentes.estruturais.Lateral;
@@ -18,10 +20,9 @@ import componentes.estruturais.TipoPrateleira;
 import componentes.estruturais.TraseiroGaveta;
 import componentes.estruturais.Travessa;
 import componentes.fechamentos.ComPuxador;
-import componentes.fechamentos.FrenteGaveta;
-import componentes.fechamentos.Gavetas;
+import componentes.fechamentos.Gaveta;
+import componentes.fechamentos.Gaveteiro;
 import componentes.fechamentos.Portas;
-import java.util.Map;
 
 class BaseSobreLaterais implements EstrategiaDeConstrucao {
 
@@ -59,7 +60,7 @@ class BaseSobreLaterais implements EstrategiaDeConstrucao {
                 switch (puxador.getDirecao()) {
                     case HORIZONTAL -> {
                         var altura = fechamento.altura() - puxador.getDimensoesAcessorio().altura();
-                        var quantidadePuxador = Map.of(puxador, fechamento.largura());
+                        gabinete.adicionarFerragem(puxador, fechamento.largura());
                         fechamento.setDimensoes(
                                 altura,
                                 fechamento.largura(),
@@ -69,7 +70,7 @@ class BaseSobreLaterais implements EstrategiaDeConstrucao {
                     }
                     case VERTICAL -> {
                         var largura = fechamento.largura() - puxador.getDimensoesAcessorio().altura();
-                        var quantidadePuxador = Map.of(puxador, fechamento.altura());
+                        gabinete.adicionarFerragem(puxador, fechamento.altura());
                         fechamento.setDimensoes(
                                 fechamento.altura(),
                                 largura,
@@ -78,7 +79,7 @@ class BaseSobreLaterais implements EstrategiaDeConstrucao {
                     }
                 }
             } else {
-                var quantidadePuxador = Map.of(puxador, 1.0);
+                gabinete.adicionarFerragem(puxador, 1.0);
                 fechamento.setDimensoes(
                         fechamento.altura(),
                         fechamento.largura(),
@@ -87,6 +88,7 @@ class BaseSobreLaterais implements EstrategiaDeConstrucao {
             }
         });
     }
+
 
     @Override
     public void aplicarParaTravessa(Travessa travessa, Dimensoes dimensoes, PadraoDeFitagem padraoDeFitagem) {
@@ -141,31 +143,36 @@ class BaseSobreLaterais implements EstrategiaDeConstrucao {
     }
 
     @Override
-    public void aplicarParaGaveta(Gavetas gavetas, Dimensoes dimensoes,
-                                  PadraoDeFitagem padraoDeFitagem) {
-
-        gavetas.alturaDeTodasAsFrentes().forEach (frente ->{
-            var novaFrenteGaveta = new FrenteGaveta(
-                    descontoAlturaFrente(gavetas.tipoFrente(), frente),
-                    gavetas.espessura(),
-                    gavetas.tipoFrente(),
-                    gavetas.folgas(),
-                    gavetas.folgasGavetas(),
-                    gavetas.getPadraoDeFitagem());
-            gavetas.adicionarFrenteGaveta(novaFrenteGaveta);
-        });
-
-    }
-
-    @Override
-    public void aplicarParaFrenteGaveta(FrenteGaveta gaveta, Dimensoes dimensoes,
-                                        PadraoDeFitagem padraoDeFitagem) {
+    public void aplicarParaGaveta(Gaveteiro gaveteiro, Dimensoes dimensoes) {
+        //calcula e valida as alturas das gavetas
+        var alturaFrentesCalculadas = calcularAlturasDasFrentes(dimensoes,
+                gaveteiro.alturaDeTodasAsFrentes(),
+                gaveteiro.quantidadeGavetas(),
+                gaveteiro.folgas());
 
         var largura =
-                dimensoes.getLargura() - gaveta.folgas().direita() - gaveta.folgas().esquerda();
+                dimensoes.getLargura() - gaveteiro.folgas().direita() - gaveteiro.folgas().esquerda();
 
-        gaveta.setDimensoes(largura, descontoAlturaFrente(gaveta.tipoFrente(), gaveta.altura()),
-                gaveta.espessura(), gaveta.getPadraoDeFitagem());
+        //adiciona as gavetas calculadas
+        alturaFrentesCalculadas.forEach(frente -> {
+            var novaGaveta = new Gaveta(
+                    descontoAlturaFrente(gaveteiro.tipoFrente(), frente),
+                    largura,
+                    gaveteiro.espessura(),
+                    gaveteiro.tipoFrente(),
+                    gaveteiro.folgas(),
+                    gaveteiro.folgasGavetas(),
+                    gaveteiro.getPadraoDeFitagem(),
+                    gaveteiro.getPuxador().orElseGet(() -> null));
+            gaveteiro.adicionarGavetas(novaGaveta);
+
+            //adiciona o corpo da gavetas a cada Gaveta
+            novaGaveta.adicionarCorpoGaveta(new CorpoGaveta(dimensoes, gaveteiro.folgasGavetas(),
+                    (frente - gaveteiro.folgasGavetas().corpoEmRelacaoFrente())));
+
+            novaGaveta.setDimensoes(novaGaveta.largura(), novaGaveta.altura(), novaGaveta.espessura(),
+                    novaGaveta.getPadraoDeFitagem());
+        });
 
     }
 

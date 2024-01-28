@@ -1,8 +1,7 @@
 package proposta.item;
 
 import componentes.Gabinete;
-import componentes.fechamentos.Gavetas;
-import componentes.fechamentos.Porta;
+import componentes.fechamentos.Gaveteiro;
 import componentes.fechamentos.Portas;
 import helpers.NumberHelper;
 import java.util.ArrayList;
@@ -41,15 +40,16 @@ public class Item {
 
         gabinete.fechamento().ifPresent(fechamento -> {
 
-            if (fechamento instanceof Gavetas gavetas) {
-                gavetas.frentes().forEach(frente -> {
-                    var subItemFrente = new SubItem(frente, frente.getMateriasPrima());
+            if (fechamento instanceof Gaveteiro gaveteiro) {
+                gaveteiro.gavetas().forEach(gaveta -> {
+                    var subItemFrente = new SubItem(gaveta, gaveta.getMateriasPrima());
                     this.subItems.add(subItemFrente);
-                });
-                gavetas.corpoGavetas().forEach(corpoGaveta -> {
-                    corpoGaveta.componentes().forEach(componente -> {
-                        var subItemComponente = new SubItem(componente, componente.getMateriasPrima());
-                        this.subItems.add(subItemComponente);
+
+                    gaveta.corpoGaveta().ifPresent(corpoGaveta -> {
+                        corpoGaveta.componentes().forEach(componente -> {
+                            var subItemComponente = new SubItem(componente, componente.getMateriasPrima());
+                            this.subItems.add(subItemComponente);
+                        });
                     });
                 });
             } else if (fechamento instanceof Portas portas) {
@@ -57,8 +57,6 @@ public class Item {
                     var subItemFrente = new SubItem(porta, porta.getMateriasPrima());
                     this.subItems.add(subItemFrente);
                 });
-//                var subItem = new SubItem(fechamento, fechamento.getMateriasPrima());
-//                this.subItems.add(subItem);
             }
         });
 
@@ -69,6 +67,7 @@ public class Item {
     public void calcularTotal() {
 
         this.total = 0.0;
+        gabinete.aplicarEstrategiaComDimensoes();
         gabinete.aplicarAcabamentos();
 
         gabinete.ferragens().forEach((ferragem, quantidade) -> {
@@ -109,11 +108,12 @@ public class Item {
         descricao.append("====================================================================").append("\n");
         descricao.append("Componentes: ").append("\n");
 
-        //subItems.sort(Comparator.comparing(subItem -> subItem.componente().getDescricao()));
+          subItems.stream()
+                //.sorted(Comparator.comparing(subItem -> subItem.componente().getDescricao()))
+                .forEach(subItem -> {
+                    descricao.append(subItem.toString());
+                });
 
-        for (SubItem subItem : subItems) {
-            descricao.append(subItem.toString());
-        }
         descricao.append("====================================================================").append("\n");
         descricao.append("Material: ").append("\n");
         totalPorMaterial.sort(Comparator.comparing(TotalPorMaterial::descricao));

@@ -1,22 +1,26 @@
 import static materiaPrima.acabamento.Unidade.PAR;
 import static materiaPrima.acabamento.Unidade.UNIDADE;
 
+import componentes.Gabinete;
+import componentes.PadraoDeFitagem;
 import componentes.config.Dimensoes;
 import componentes.config.DimensoesAcessorio;
 import componentes.config.Folgas;
-import componentes.Gabinete;
-import componentes.PadraoDeFitagem;
 import componentes.estruturais.Base;
 import componentes.estruturais.Fundo;
+import componentes.estruturais.FundoGaveta;
 import componentes.estruturais.Lateral;
 import componentes.estruturais.PrateleiraInterna;
 import componentes.estruturais.TipoFundo;
 import componentes.estruturais.TipoPrateleira;
 import componentes.estruturais.Travessa;
+import componentes.fechamentos.Gaveteiro;
 import componentes.fechamentos.Portas;
+import componentes.fechamentos.TipoFrente;
 import componentes.fechamentos.TipoPorta;
 import componentes.fechamentos.TipoPuxador;
 import estrategias.BaseEntreLaterais;
+import java.util.ArrayList;
 import java.util.List;
 import materiaPrima.acabamento.CalculaPorLado;
 import materiaPrima.acabamento.DimensoesChapa;
@@ -43,7 +47,7 @@ public class Main {
 
         gabinete.adicionarFechamento(
                 new Portas(
-                        TipoPorta.PORTA_DUPLA,
+                        TipoPorta.DUPLA,
                         18,
                         PadraoDeFitagem.QUATRO_LADOS,
                         null
@@ -133,7 +137,7 @@ public class Main {
                 new DimensoesAcessorio(250, 20, 30),
                 9.90
         );
-
+//
         gabinete.definirDimensoes(new Dimensoes(500, 800, 400, 15));
         gabinete.adicionarFerragem(ferragem, 4.0);
         gabinete.adicionarFerragem(dobradica, 6.0);
@@ -150,39 +154,40 @@ public class Main {
          * Gaveteiro
          */
 
-//        Gabinete gaveteiro = new Gabinete(new BaseEntreLaterais());
-//
-//        gaveteiro.adicionarComponenteEstrutural(new Base(PadraoDeFitagem.UMA_ALTURA));
-//        gaveteiro.adicionarComponenteEstrutural(new Lateral(PadraoDeFitagem.UMA_ALTURA));
-//        gaveteiro.adicionarComponenteEstrutural(new Lateral(PadraoDeFitagem.UMA_ALTURA));
-//        gaveteiro.adicionarComponenteEstrutural(new Travessa(75, PadraoDeFitagem.UMA_ALTURA));
-//        gaveteiro.adicionarComponenteEstrutural(new Travessa(75, PadraoDeFitagem.UMA_ALTURA));
-//        gaveteiro.adicionarComponenteEstrutural(new Fundo(TipoFundo.ENCAIXADO, 6, 10, PadraoDeFitagem.NENHUM));
-//
-//
-//        var frentes = new ArrayList<Double>();
-//        frentes.add(120.0);
-//        frentes.add(155.0);
-//        frentes.add(155.0);
-//////        frentes.add(155.0);
-////        //TODO: corrigir a calculo de frentes de gaveta
-//        gaveteiro.adicionarFechamento(
-//                new Gavetas(
-//                        TipoFrente.NORMAL,
-//                        4,
-//                        frentes,
-//                        PadraoDeFitagem.QUATRO_LADOS,
-//                        18));
-//
-//        gaveteiro.definirDimensoes(new Dimensoes(400, 800, 560, 15));
-//        gaveteiro.definirAcabamentosCaixa(List.of(mdfCaixa, fitaBordas));
-//        gaveteiro.definirAcabamentosFrente(List.of(mdfCaixa18, fitaBordas22));
-//        gaveteiro.definirAcabamentoCaixaEspecifico(Fundo.class, List.of(mdfFundo));
-//        gaveteiro.definirAcabamentoCaixaEspecifico(FundoGaveta.class, List.of(mdfFundo));
-//        gaveteiro.adicionarFerragem(trilhos, 4.0);
-//        gaveteiro.adicionarFerragem(parafusoGaveta, 48.0);
-//        var item2 = new Item(gaveteiro);
-//        System.out.println(item2.toString());
+        Gabinete gaveteiro = new Gabinete(new BaseEntreLaterais());
+
+        gaveteiro.adicionarComponenteEstrutural(new Base(PadraoDeFitagem.UMA_ALTURA));
+        gaveteiro.adicionarComponenteEstrutural(new Lateral(PadraoDeFitagem.UMA_ALTURA));
+        gaveteiro.adicionarComponenteEstrutural(new Lateral(PadraoDeFitagem.UMA_ALTURA));
+        gaveteiro.adicionarComponenteEstrutural(new Travessa(75, PadraoDeFitagem.UMA_ALTURA));
+        gaveteiro.adicionarComponenteEstrutural(new Travessa(75, PadraoDeFitagem.UMA_ALTURA));
+        gaveteiro.adicionarComponenteEstrutural(new Fundo(TipoFundo.ENCAIXADO, 6, 10, PadraoDeFitagem.NENHUM));
+
+
+        var frentes = new ArrayList<Double>();
+        frentes.add(120.0);
+        frentes.add(155.0);
+        frentes.add(155.0);
+//////        gavetas.add(155.0);
+////        //TODO: corrigir a calculo de gavetas de gavetas
+        gaveteiro.adicionarFechamento(
+                new Gaveteiro(
+                        TipoFrente.NORMAL,
+                        4,
+                        frentes,
+                        PadraoDeFitagem.QUATRO_LADOS,
+                        18));
+
+        gaveteiro.definirDimensoes(new Dimensoes(400, 800, 560, 15));
+        gaveteiro.definirAcabamentosCaixa(List.of(mdfCaixa, fitaBordas));
+        gaveteiro.definirAcabamentosFrente(List.of(mdfCaixa18, fitaBordas22));
+        gaveteiro.definirAcabamentoCaixaEspecifico(Fundo.class, List.of(mdfFundo));
+        gaveteiro.definirAcabamentoCaixaEspecifico(FundoGaveta.class, List.of(mdfFundo));
+        gaveteiro.adicionarFerragem(trilhos, 4.0);
+        gaveteiro.adicionarFerragem(parafusoGaveta, 48.0);
+        gaveteiro.adicionarPuxador(puxador);
+        var item2 = new Item(gaveteiro);
+        System.out.println(item2.toString());
     }
 
 }

@@ -17,12 +17,12 @@ public class Base extends AbstractComponente {
         estrategia.aplicarParaBase(this, dimensoes, this.padraoDeFitagem);
     }
 
-    public void setDimensoes(double largura, double profundidade, double espessura, PadraoDeFitagem padraoDeFitagem) {
+    public void setDimensoes(double largura, double altura, double espessura, PadraoDeFitagem padraoDeFitagem) {
         this.largura = largura;
-        this.profundidade = profundidade;
+        this.altura = altura;
         this.espessura = espessura;
-        this.area = largura * profundidade;
-        this.metragemFita = calcularMetragemFita(largura, profundidade, padraoDeFitagem);
+        this.area = largura * altura;
+        this.metragemFita = calcularMetragemFita(largura, altura, padraoDeFitagem);
         this.descricao = "Base";
     }
 }

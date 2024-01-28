@@ -30,7 +30,6 @@ public class SubItem {
         sb.append(componente.getDescricao()).append(" - ");
         sb.append(componente.altura()).append(" x ");
         sb.append(componente.largura()).append(" x ");
-        sb.append(componente.profundidade()).append(" x ");
         sb.append(componente.espessura()).append(" : ");
 
         for (MateriaPrima materiaPrima : componente.getMateriasPrima()) {
