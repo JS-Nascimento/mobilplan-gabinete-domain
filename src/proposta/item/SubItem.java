@@ -5,6 +5,7 @@ import helpers.NumberHelper;
 import java.util.List;
 import materiaPrima.MateriaPrima;
 import materiaPrima.acabamento.Unidade;
+import materiaPrima.acessorios.Puxador;
 
 public class SubItem {
 
@@ -42,12 +43,16 @@ public class SubItem {
                         .append(NumberHelper.mmSqParaMetrosSq(componente.getArea()))
                         .append(materiaPrima.getUnidade().getDescricao())
                         .append(" x ").append(materiaPrima.getPreco()).append(" = ")
-                        .append(NumberHelper.formatCurrency(materiaPrima.getPreco() * NumberHelper.mmSqParaMetrosSq(componente.getArea())));
-                case METRO_LINEAR -> sb.append(" - ")
-                        .append(NumberHelper.mmParaMetros(componente.getMetragemLinear()))
-                        .append(materiaPrima.getUnidade().getDescricao())
-                        .append(" x ").append(materiaPrima.getPreco()).append(" = ")
-                        .append(NumberHelper.formatCurrency(materiaPrima.getPreco() * NumberHelper.mmParaMetros(componente.getMetragemLinear())));
+                        .append(NumberHelper.formatCurrency(
+                                materiaPrima.getPreco() * NumberHelper.mmSqParaMetrosSq(componente.getArea())));
+                case METRO_LINEAR -> {
+                        sb.append(" - ")
+                                .append(NumberHelper.mmParaMetros(componente.getMetragemLinear()))
+                                .append(materiaPrima.getUnidade().getDescricao())
+                                .append(" x ").append(materiaPrima.getPreco()).append(" = ")
+                                .append(NumberHelper.formatCurrency(materiaPrima.getPreco() *
+                                        NumberHelper.mmParaMetros(componente.getMetragemLinear())));
+                }
             }
         }
         sb.append('\n');

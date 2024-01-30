@@ -23,6 +23,7 @@ import componentes.fechamentos.ComPuxador;
 import componentes.fechamentos.Gaveta;
 import componentes.fechamentos.Gaveteiro;
 import componentes.fechamentos.Portas;
+import helpers.NumberHelper;
 
 public class BaseEntreLaterais implements EstrategiaDeConstrucao {
 
@@ -55,36 +56,24 @@ public class BaseEntreLaterais implements EstrategiaDeConstrucao {
     public void aplicarParaPuxador(ComPuxador fechamento, Dimensoes dimensoes, Gabinete gabinete) {
 
         fechamento.getPuxador().ifPresent(puxador -> {
+            double novaAltura = fechamento.altura();
+            double novaLargura = fechamento.largura();
+
             if (puxador.isPerfil()) {
                 switch (puxador.getDirecao()) {
-                    case HORIZONTAL -> {
-                        var altura = fechamento.altura() - puxador.getDimensoesAcessorio().altura();
-                        gabinete.adicionarFerragem(puxador, fechamento.largura());
-                        fechamento.setDimensoes(
-                                altura,
-                                fechamento.largura(),
-                                fechamento.espessura(),
-                                fechamento.getPadraoDeFitagem());
-
-                    }
-                    case VERTICAL -> {
-                        var largura = fechamento.largura() - puxador.getDimensoesAcessorio().altura();
-                        gabinete.adicionarFerragem(puxador, fechamento.altura());
-                        fechamento.setDimensoes(
-                                fechamento.altura(),
-                                largura,
-                                fechamento.espessura(),
-                                fechamento.getPadraoDeFitagem());
-                    }
+                    case HORIZONTAL:
+                        novaAltura -= puxador.getDimensoesAcessorio().altura();
+                        gabinete.adicionarFerragem(puxador, NumberHelper.mmParaMetros(fechamento.largura()));
+                        break;
+                    case VERTICAL:
+                        novaLargura -= puxador.getDimensoesAcessorio().altura();
+                        gabinete.adicionarFerragem(puxador, NumberHelper.mmParaMetros(fechamento.altura()));
+                        break;
                 }
             } else {
                 gabinete.adicionarFerragem(puxador, 1.0);
-                fechamento.setDimensoes(
-                        fechamento.altura(),
-                        fechamento.largura(),
-                        fechamento.espessura(),
-                        fechamento.getPadraoDeFitagem());
             }
+            fechamento.setDimensoes(novaAltura, novaLargura, fechamento.espessura(), fechamento.getPadraoDeFitagem());
         });
     }
 
@@ -169,8 +158,8 @@ public class BaseEntreLaterais implements EstrategiaDeConstrucao {
         //adiciona as gavetas calculadas
         alturaFrentesCalculadas.forEach(frente -> {
             var novaGaveta = new Gaveta(
-                    descontoAlturaFrente(gaveteiro.tipoFrente(), frente),
                     largura,
+                    frente,
                     gaveteiro.espessura(),
                     gaveteiro.tipoFrente(),
                     gaveteiro.folgas(),
@@ -183,8 +172,8 @@ public class BaseEntreLaterais implements EstrategiaDeConstrucao {
             novaGaveta.adicionarCorpoGaveta(new CorpoGaveta(dimensoes, gaveteiro.folgasGavetas(),
                     (frente - gaveteiro.folgasGavetas().corpoEmRelacaoFrente())));
 
-            novaGaveta.setDimensoes(novaGaveta.largura(), novaGaveta.altura(), novaGaveta.espessura(),
-                    novaGaveta.getPadraoDeFitagem());
+           novaGaveta.setDimensoes(novaGaveta.largura(), novaGaveta.altura(), novaGaveta.espessura(),
+                  novaGaveta.getPadraoDeFitagem());
         });
 
     }

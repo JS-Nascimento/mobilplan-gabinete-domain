@@ -33,25 +33,25 @@ import proposta.item.Item;
 
 public class Main {
     public static void main(String[] args) {
-
-        Gabinete gabinete = new Gabinete(new BaseEntreLaterais());
-
-        gabinete.adicionarComponenteEstrutural(new Base(PadraoDeFitagem.UMA_ALTURA));
-        gabinete.adicionarComponenteEstrutural(new Lateral(PadraoDeFitagem.UMA_ALTURA));
-        gabinete.adicionarComponenteEstrutural(new Lateral(PadraoDeFitagem.UMA_ALTURA));
-        gabinete.adicionarComponenteEstrutural(new Travessa(75, PadraoDeFitagem.UMA_ALTURA));
-        gabinete.adicionarComponenteEstrutural(new Travessa(75, PadraoDeFitagem.UMA_ALTURA));
-        gabinete.adicionarComponenteEstrutural(new Fundo(TipoFundo.ENCAIXADO, 6, 10, PadraoDeFitagem.NENHUM));
-        gabinete.adicionarComponenteEstrutural(new PrateleiraInterna(TipoPrateleira.MOVEL,
-                18, new Folgas(30), PadraoDeFitagem.UMA_ALTURA));
-
-        gabinete.adicionarFechamento(
-                new Portas(
-                        TipoPorta.DUPLA,
-                        18,
-                        PadraoDeFitagem.QUATRO_LADOS,
-                        null
-                ));
+//
+//        Gabinete gabinete = new Gabinete(new BaseEntreLaterais());
+//
+//        gabinete.adicionarComponenteEstrutural(new Base(PadraoDeFitagem.UMA_ALTURA));
+//        gabinete.adicionarComponenteEstrutural(new Lateral(PadraoDeFitagem.UMA_ALTURA));
+//        gabinete.adicionarComponenteEstrutural(new Lateral(PadraoDeFitagem.UMA_ALTURA));
+//        gabinete.adicionarComponenteEstrutural(new Travessa(75, PadraoDeFitagem.UMA_ALTURA));
+//        gabinete.adicionarComponenteEstrutural(new Travessa(75, PadraoDeFitagem.UMA_ALTURA));
+//        gabinete.adicionarComponenteEstrutural(new Fundo(TipoFundo.ENCAIXADO, 6, 10, PadraoDeFitagem.NENHUM));
+//        gabinete.adicionarComponenteEstrutural(new PrateleiraInterna(TipoPrateleira.MOVEL,
+//                18, new Folgas(30), PadraoDeFitagem.UMA_ALTURA));
+//
+//        gabinete.adicionarFechamento(
+//                new Portas(
+//                        TipoPorta.DUPLA,
+//                        18,
+//                        PadraoDeFitagem.QUATRO_LADOS,
+//                        null
+//                ));
 
         var mdfCaixa = new Mdf(
                 "MDF TX",
@@ -137,18 +137,27 @@ public class Main {
                 new DimensoesAcessorio(250, 20, 30),
                 9.90
         );
+        var puxador2 = new Puxador(
+                true,
+                Direcao.HORIZONTAL,
+                TipoPuxador.PUXADOR_PERFIL,
+                "Perfil Tipo C",
+                "Anodizado Fosco 35mm",
+                new DimensoesAcessorio(35, 0, 20),
+                25.00
+        );
 //
-        gabinete.definirDimensoes(new Dimensoes(500, 800, 400, 15));
-        gabinete.adicionarFerragem(ferragem, 4.0);
-        gabinete.adicionarFerragem(dobradica, 6.0);
-        gabinete.adicionarPuxador(puxador);
-        gabinete.definirAcabamentosCaixa(List.of(mdfCaixa, fitaBordas));
-        gabinete.definirAcabamentosFrente(List.of(mdfCaixa18, fitaBordas22));
-        gabinete.definirAcabamentoCaixaEspecifico(Fundo.class, List.of(mdfFundo));
-
-
-        var item = new Item(gabinete);
-        System.out.println(item);
+//        gabinete.definirDimensoes(new Dimensoes(500, 800, 400, 15));
+//        gabinete.adicionarFerragem(ferragem, 4.0);
+//        gabinete.adicionarFerragem(dobradica, 6.0);
+//        gabinete.adicionarPuxador(puxador);
+//        gabinete.definirAcabamentosCaixa(List.of(mdfCaixa, fitaBordas));
+//        gabinete.definirAcabamentosFrente(List.of(mdfCaixa18, fitaBordas22));
+//        gabinete.definirAcabamentoCaixaEspecifico(Fundo.class, List.of(mdfFundo));
+//
+//
+//        var item = new Item(gabinete);
+//        System.out.println(item);
 
         /**
          * Gaveteiro
@@ -185,7 +194,7 @@ public class Main {
         gaveteiro.definirAcabamentoCaixaEspecifico(FundoGaveta.class, List.of(mdfFundo));
         gaveteiro.adicionarFerragem(trilhos, 4.0);
         gaveteiro.adicionarFerragem(parafusoGaveta, 48.0);
-        gaveteiro.adicionarPuxador(puxador);
+        gaveteiro.adicionarPuxador(puxador2);
         var item2 = new Item(gaveteiro);
         System.out.println(item2.toString());
     }

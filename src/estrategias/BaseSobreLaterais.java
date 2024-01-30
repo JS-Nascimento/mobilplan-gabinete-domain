@@ -23,6 +23,7 @@ import componentes.fechamentos.ComPuxador;
 import componentes.fechamentos.Gaveta;
 import componentes.fechamentos.Gaveteiro;
 import componentes.fechamentos.Portas;
+import helpers.NumberHelper;
 
 class BaseSobreLaterais implements EstrategiaDeConstrucao {
 
@@ -60,22 +61,23 @@ class BaseSobreLaterais implements EstrategiaDeConstrucao {
                 switch (puxador.getDirecao()) {
                     case HORIZONTAL -> {
                         var altura = fechamento.altura() - puxador.getDimensoesAcessorio().altura();
-                        gabinete.adicionarFerragem(puxador, fechamento.largura());
+                        gabinete.adicionarFerragem(puxador, NumberHelper.mmParaMetros(fechamento.largura()));
                         fechamento.setDimensoes(
                                 altura,
                                 fechamento.largura(),
                                 fechamento.espessura(),
                                 fechamento.getPadraoDeFitagem());
-
+                        break;
                     }
                     case VERTICAL -> {
                         var largura = fechamento.largura() - puxador.getDimensoesAcessorio().altura();
-                        gabinete.adicionarFerragem(puxador, fechamento.altura());
+                        gabinete.adicionarFerragem(puxador, NumberHelper.mmParaMetros(fechamento.altura()));
                         fechamento.setDimensoes(
                                 fechamento.altura(),
                                 largura,
                                 fechamento.espessura(),
                                 fechamento.getPadraoDeFitagem());
+                        break;
                     }
                 }
             } else {
@@ -163,7 +165,9 @@ class BaseSobreLaterais implements EstrategiaDeConstrucao {
                     gaveteiro.folgas(),
                     gaveteiro.folgasGavetas(),
                     gaveteiro.getPadraoDeFitagem(),
-                    gaveteiro.getPuxador().orElseGet(() -> null));
+                    gaveteiro.getPuxador()
+                            .orElseGet(() -> null)
+            );
             gaveteiro.adicionarGavetas(novaGaveta);
 
             //adiciona o corpo da gavetas a cada Gaveta

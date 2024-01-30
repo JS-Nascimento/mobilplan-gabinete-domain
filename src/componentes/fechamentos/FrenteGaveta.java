@@ -36,20 +36,20 @@ public class FrenteGaveta extends AbstractComponenteFechamento implements ComPux
 
     public void setDimensoes(double altura, double largura, double espessura,
                              PadraoDeFitagem padraoDeFitagem) {
-        this.largura = largura;
-        this.altura = altura;
-        this.area = (largura * altura);
-        this.metragemFita = calcularMetragemFita(altura, largura, padraoDeFitagem);
-        StringBuilder sb = new StringBuilder();
-        sb.append("Frente Gaveta ")
-                .append(tipoFrente.toString());
-
-        puxador.ifPresent(puxador -> {
-            sb.append(" - ");
-            sb.append(puxador.getTipoPuxador().toString());
-        });
-
-        this.descricao = sb.toString();
+//        this.largura = largura;
+//        this.altura = altura;
+//        this.area = (largura * altura);
+//        this.metragemFita = calcularMetragemFita(altura, largura, padraoDeFitagem);
+//        StringBuilder sb = new StringBuilder();
+//        sb.append("Frente Gaveta ")
+//                .append(tipoFrente.toString());
+//
+//        puxador.ifPresent(puxador -> {
+//            sb.append(" - ");
+//            sb.append(puxador.getTipoPuxador().toString());
+//        });
+//
+//        this.descricao = sb.toString();
 
     }
 

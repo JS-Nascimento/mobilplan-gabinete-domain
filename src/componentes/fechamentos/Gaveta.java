@@ -43,8 +43,11 @@ public class Gaveta extends AbstractComponenteFechamento implements ComPuxador {
 
     public void setDimensoes(double altura, double largura, double espessura,
                              PadraoDeFitagem padraoDeFitagem) {
-        this.largura = largura;
+
+//        limparDimensoes();
         this.altura = altura;
+        this.largura = largura;
+        this.espessura = espessura;
         this.area = (largura * altura);
         this.metragemFita = calcularMetragemFita(altura, largura, padraoDeFitagem);
         StringBuilder sb = new StringBuilder();
@@ -96,5 +99,13 @@ public class Gaveta extends AbstractComponenteFechamento implements ComPuxador {
 
     public void setGabinete(Gabinete gabinete) {
         this.gabinete = gabinete;
+    }
+
+    private void limparDimensoes() {
+        this.altura = 0;
+        this.largura = 0;
+        this.espessura = 0;
+        this.area = 0;
+        this.metragemFita = 0;
     }
 }

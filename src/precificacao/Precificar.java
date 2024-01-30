@@ -9,6 +9,8 @@ import materiaPrima.acabamento.Acabamento;
 import helpers.NumberHelper;
 import materiaPrima.MateriaPrima;
 import materiaPrima.acessorios.Acessorio;
+import materiaPrima.acessorios.Ferragem;
+import materiaPrima.acessorios.Puxador;
 
 public class Precificar {
 
@@ -27,16 +29,17 @@ public class Precificar {
         if (materiaPrima instanceof Acabamento acabamento) {
 
             switch (acabamento.precificacao) {
-                case M2 ->  this.valorTotal = acabamento.getPreco() * quantidade;
-                case ML -> this.valorTotal = acabamento.getPreco() * quantidade;
-                case UNIDADE -> this.valorTotal = acabamento.getPreco() * quantidade;
+                case M2, ML, UNIDADE ->  this.valorTotal = acabamento.getPreco() * quantidade;
+
             }
         }
 
-        if (materiaPrima instanceof Acessorio acessorio) {
-
+        if (materiaPrima instanceof Ferragem acessorio) {
             this.valorTotal = materiaPrima.getPreco() * quantidade;
+        }
 
+        if (materiaPrima instanceof Puxador acessorio) {
+            this.valorTotal = materiaPrima.getPreco() * quantidade;
         }
 
     }

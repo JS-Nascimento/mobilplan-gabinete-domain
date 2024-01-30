@@ -11,6 +11,7 @@ import estrategias.EstrategiaDeConstrucao;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import materiaPrima.MateriaPrima;
 import materiaPrima.acessorios.Puxador;
 
 public class Gaveteiro extends AbstractComponenteFechamento{
@@ -95,6 +96,12 @@ public class Gaveteiro extends AbstractComponenteFechamento{
     private void removerPuxador(Puxador puxador) {
         if (materiaPrimas().contains(puxador)) {
             materiaPrimas().remove(puxador);
+        }
+    }
+
+    public void removerMateriaPrima(MateriaPrima materiaPrima) {
+        if (materiaPrimas().contains(materiaPrima)) {
+            materiaPrimas().remove(materiaPrima);
         }
     }
     @Override
