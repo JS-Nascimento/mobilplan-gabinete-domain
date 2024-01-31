@@ -104,7 +104,7 @@ public class Item {
         StringBuilder descricao = new StringBuilder();
 
         descricao.append("====================================================================").append("\n");
-        descricao.append("Gabinete: ").append(gabinete.descricao()).append("\n");
+        descricao.append("Item: ").append(gabinete.descricao()).append("\n");
         descricao.append("====================================================================").append("\n");
         descricao.append("Componentes: ").append("\n");
 

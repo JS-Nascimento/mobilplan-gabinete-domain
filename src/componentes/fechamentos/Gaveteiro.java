@@ -76,8 +76,8 @@ public class Gaveteiro extends AbstractComponenteFechamento{
         this.gavetas.add(gaveta);
     }
     @Override
-    public String getDescricao() {
-        this.descricao = "Gaveteiro com " + this.quantidadeGavetas + " gavetas\n";
+    public String getDescricaoCurta() {
+        this.descricao = "Gaveteiro com " + this.quantidadeGavetas + " gavetas";
         return descricao;
     }
 

@@ -202,6 +202,16 @@ public class Gabinete {
 
     private void processarGaveteiro(Gaveteiro gaveteiro, Map<MateriaPrima, Double> quantidadePorMaterial) {
         gaveteiro.gavetas().forEach(gaveta -> {
+            List<MateriaPrima> materiasPrimasParaRemover = new ArrayList<>();
+
+            gaveta.getMateriasPrima().forEach(materiaPrima -> {
+                if (materiaPrima instanceof Puxador) {
+                    materiasPrimasParaRemover.add(materiaPrima);
+                }
+            });
+
+            materiasPrimasParaRemover.forEach(gaveta.getMateriasPrima()::remove);
+
             gaveta.getMateriasPrima().forEach(materiaPrima ->
                     atualizarQuantidadePorMaterial(quantidadePorMaterial, materiaPrima,
                             calcularQuantidade(gaveta, materiaPrima))
@@ -218,67 +228,77 @@ public class Gabinete {
     }
 
     private void processarPortas(Portas portas, Map<MateriaPrima, Double> quantidadePorMaterial) {
-        portas.portas().forEach(porta ->
-                porta.getMateriasPrima().forEach(materiaPrima ->
-                        atualizarQuantidadePorMaterial(quantidadePorMaterial, materiaPrima,
-                                calcularQuantidade(porta, materiaPrima))
-                )
-        );
+        portas.portas().forEach(porta -> {
+            List<MateriaPrima> materiasPrimasParaRemover = new ArrayList<>();
+
+            porta.getMateriasPrima().forEach(materiaPrima -> {
+                if (materiaPrima instanceof Puxador) {
+                    materiasPrimasParaRemover.add(materiaPrima);
+                }
+            });
+
+            materiasPrimasParaRemover.forEach(porta.getMateriasPrima()::remove);
+
+            porta.getMateriasPrima().forEach(materiaPrima ->
+                    atualizarQuantidadePorMaterial(quantidadePorMaterial, materiaPrima,
+                            calcularQuantidade(porta, materiaPrima))
+            );
+        });
     }
 
     private double calcularQuantidade(Componente componente, MateriaPrima materiaPrima) {
 
-       if (!(materiaPrima instanceof Puxador) && (materiaPrima.getUnidade() == METRO_QUADRADO)) {
-           return componente.getArea() ;
-       } else if (!(materiaPrima instanceof Puxador) && (materiaPrima.getUnidade() == Unidade.METRO_LINEAR)){
-           return componente.getMetragemLinear();
-       } else {
-           return 1;
-       }
+        if (!(materiaPrima instanceof Puxador) && (materiaPrima.getUnidade() == METRO_QUADRADO)) {
+            return componente.getArea();
+        } else if (!(materiaPrima instanceof Puxador) && (materiaPrima.getUnidade() == Unidade.METRO_LINEAR)) {
+            return componente.getMetragemLinear();
+        }
+        return 0;
     }
-        private void atualizarQuantidadePorMaterial (Map < MateriaPrima, Double > map, MateriaPrima chave,
-        double quantidade){
-            map.merge(chave, quantidade, Double::sum);
-        }
 
-
-        public Optional<Dimensoes> getDimensoesInternas () {
-            return dimensoesInternas;
-        }
-
-        public Optional<Dimensoes> getDimensoes () {
-            return dimensoes;
-        }
-
-        public Caixa caixa () {
-            return caixa;
-        }
-
-        public Optional<Fechamento> fechamento () {
-            return fechamento;
-        }
-
-        public Map<Acessorio, Double> ferragens () {
-            return ferragens;
-        }
-
-        public Map<MateriaPrima, Double> acabamentos () {
-            return acabamentos;
-        }
-
-        public String descricao () {
-            String descricao = "Gabinete - ";
-
-            if (fechamento.isPresent()) {
-                descricao = descricao + fechamento.get().getDescricaoCurta() + " - ";
-            }
-            if (dimensoes.isPresent()) {
-                descricao =
-                        descricao + dimensoes.get().getLargura() + "mm x " + dimensoes.get().getProfundidade() +
-                                "mm x " +
-                                dimensoes.get().getAltura() + "mm";
-            }
-
-            return descricao;
-        }
+    private void atualizarQuantidadePorMaterial(Map<MateriaPrima, Double> map, MateriaPrima chave,
+                                                double quantidade) {
+        map.merge(chave, quantidade, Double::sum);
     }
+
+
+    public Optional<Dimensoes> getDimensoesInternas() {
+        return dimensoesInternas;
+    }
+
+    public Optional<Dimensoes> getDimensoes() {
+        return dimensoes;
+    }
+
+    public Caixa caixa() {
+        return caixa;
+    }
+
+    public Optional<Fechamento> fechamento() {
+        return fechamento;
+    }
+
+    public Map<Acessorio, Double> ferragens() {
+        return ferragens;
+    }
+
+    public Map<MateriaPrima, Double> acabamentos() {
+        return acabamentos;
+    }
+
+    public String descricao() {
+        String descricao = "Gabinete - ";
+
+        if (fechamento.isPresent()) {
+            descricao = descricao + fechamento.get().getDescricaoCurta() + " - ";
+        }
+        if (dimensoes.isPresent()) {
+            descricao =
+                    descricao + dimensoes.get().getLargura() + "mm x " + dimensoes.get().getProfundidade() +
+                            "mm x " +
+                            dimensoes.get().getAltura() + "mm";
+        }
+
+        return descricao;
+    }
+}

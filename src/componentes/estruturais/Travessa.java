@@ -1,8 +1,10 @@
 package componentes.estruturais;
 
+import static componentes.config.ConfigFabricacao.PROFUNDIDADE_TRAVESSA_HORIZONTAL;
 import static helpers.FitaHelper.calcularMetragemFita;
 
 import componentes.AbstractComponente;
+import componentes.config.ConfigFabricacao;
 import componentes.config.Dimensoes;
 import componentes.PadraoDeFitagem;
 import estrategias.EstrategiaDeConstrucao;
@@ -10,9 +12,9 @@ import estrategias.EstrategiaDeConstrucao;
 public class Travessa extends AbstractComponente {
     private final double profundidadeEspecifica;
 
-    public Travessa(double profundidadeEspecifica, PadraoDeFitagem padraoDeFitagem) {
+    public Travessa(PadraoDeFitagem padraoDeFitagem) {
         super(padraoDeFitagem);
-        this.profundidadeEspecifica = profundidadeEspecifica;
+        this.profundidadeEspecifica = PROFUNDIDADE_TRAVESSA_HORIZONTAL;
     }
 
     @Override

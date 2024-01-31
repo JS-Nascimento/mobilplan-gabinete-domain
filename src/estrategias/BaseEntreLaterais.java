@@ -1,13 +1,11 @@
 package estrategias;
 
-import static helpers.DescontosPadroes.descontoAlturaFrente;
 import static helpers.FechamentosHelper.calcularAlturasDasFrentes;
 import static helpers.FechamentosHelper.calcularPortas;
 
 import componentes.Gabinete;
 import componentes.PadraoDeFitagem;
 import componentes.config.Dimensoes;
-import componentes.config.Folgas;
 import componentes.estruturais.Base;
 import componentes.estruturais.ContraFrenteGaveta;
 import componentes.estruturais.CorpoGaveta;
@@ -16,7 +14,6 @@ import componentes.estruturais.FundoGaveta;
 import componentes.estruturais.Lateral;
 import componentes.estruturais.LateralGaveta;
 import componentes.estruturais.PrateleiraInterna;
-import componentes.estruturais.TipoPrateleira;
 import componentes.estruturais.TraseiroGaveta;
 import componentes.estruturais.Travessa;
 import componentes.fechamentos.ComPuxador;
@@ -35,14 +32,14 @@ public class BaseEntreLaterais implements EstrategiaDeConstrucao {
     }
 
     @Override
-    public void aplicarParaPrateleiraInterna(PrateleiraInterna prateleiraInterna, Dimensoes dimensoes,
-                                             PadraoDeFitagem padraoDeFitagem,
-                                             TipoPrateleira tipoPrateleira, Folgas folgas) {
-        var dimensoesInternas = dimensoes.calcularDimensoesInternas();
-        double largura = dimensoesInternas.getLargura() - folgas.direita() - folgas.esquerda();
-        double profundidade = dimensoesInternas.getProfundidade() - folgas.inferior() - folgas.superior();
+    public void aplicarParaPrateleiraInterna(PrateleiraInterna prateleiraInterna, Dimensoes dimensoes) {
 
-        prateleiraInterna.setDimensoes(largura, profundidade, dimensoes.getEspessura(), padraoDeFitagem);
+        var dimensoesInternas = dimensoes.calcularDimensoesInternas();
+        double largura = dimensoesInternas.getLargura();
+        double profundidade = dimensoesInternas.getProfundidade() - prateleiraInterna.descontoProfundidade();
+
+        prateleiraInterna.setDimensoes(largura, profundidade, dimensoes.getEspessura(),
+                prateleiraInterna.getPadraoDeFitagem());
     }
 
     @Override

@@ -25,7 +25,7 @@ import componentes.fechamentos.Gaveteiro;
 import componentes.fechamentos.Portas;
 import helpers.NumberHelper;
 
-class BaseSobreLaterais implements EstrategiaDeConstrucao {
+public class BaseSobreLaterais implements EstrategiaDeConstrucao {
 
     @Override
     public void aplicarParaBase(Base base, Dimensoes dimensoes, PadraoDeFitagem padraoDeFitagem) {
@@ -35,14 +35,14 @@ class BaseSobreLaterais implements EstrategiaDeConstrucao {
     }
 
     @Override
-    public void aplicarParaPrateleiraInterna(PrateleiraInterna prateleiraInterna, Dimensoes dimensoes,
-                                             PadraoDeFitagem padraoDeFitagem, TipoPrateleira tipoPrateleira,
-                                             Folgas folgas) {
-        var dimensoesInternas = dimensoes.calcularDimensoesInternas();
-        double largura = dimensoesInternas.getLargura() - folgas.direita() - folgas.esquerda();
-        double profundidade = dimensoesInternas.getProfundidade() - folgas.inferior() - folgas.superior();
+    public void aplicarParaPrateleiraInterna(PrateleiraInterna prateleiraInterna, Dimensoes dimensoes) {
 
-        prateleiraInterna.setDimensoes(largura, profundidade, dimensoes.getEspessura(), padraoDeFitagem);
+        var dimensoesInternas = dimensoes.calcularDimensoesInternas();
+        double largura = dimensoesInternas.getLargura();
+        double profundidade = dimensoesInternas.getProfundidade() - prateleiraInterna.descontoProfundidade();
+
+        prateleiraInterna.setDimensoes(largura, profundidade, dimensoes.getEspessura(),
+                prateleiraInterna.getPadraoDeFitagem());
     }
 
     @Override

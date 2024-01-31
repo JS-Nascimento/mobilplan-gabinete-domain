@@ -29,29 +29,33 @@ import materiaPrima.acabamento.Mdf;
 import materiaPrima.acessorios.Direcao;
 import materiaPrima.acessorios.Ferragem;
 import materiaPrima.acessorios.Puxador;
+import modelos.Construcao;
+import modelos.GabineteModel;
 import proposta.item.Item;
 
 public class Main {
     public static void main(String[] args) {
-//
-//        Gabinete gabinete = new Gabinete(new BaseEntreLaterais());
-//
-//        gabinete.adicionarComponenteEstrutural(new Base(PadraoDeFitagem.UMA_ALTURA));
-//        gabinete.adicionarComponenteEstrutural(new Lateral(PadraoDeFitagem.UMA_ALTURA));
-//        gabinete.adicionarComponenteEstrutural(new Lateral(PadraoDeFitagem.UMA_ALTURA));
-//        gabinete.adicionarComponenteEstrutural(new Travessa(75, PadraoDeFitagem.UMA_ALTURA));
-//        gabinete.adicionarComponenteEstrutural(new Travessa(75, PadraoDeFitagem.UMA_ALTURA));
-//        gabinete.adicionarComponenteEstrutural(new Fundo(TipoFundo.ENCAIXADO, 6, 10, PadraoDeFitagem.NENHUM));
-//        gabinete.adicionarComponenteEstrutural(new PrateleiraInterna(TipoPrateleira.MOVEL,
-//                18, new Folgas(30), PadraoDeFitagem.UMA_ALTURA));
-//
-//        gabinete.adicionarFechamento(
-//                new Portas(
-//                        TipoPorta.DUPLA,
-//                        18,
-//                        PadraoDeFitagem.QUATRO_LADOS,
-//                        null
-//                ));
+        var novoGabinete = GabineteModel.create(Construcao.BaseEntreLaterais)
+                .build();
+
+        Gabinete gabinete = new Gabinete(new BaseEntreLaterais());
+
+        gabinete.adicionarComponenteEstrutural(new Base(PadraoDeFitagem.UMA_ALTURA));
+        gabinete.adicionarComponenteEstrutural(new Lateral(PadraoDeFitagem.UMA_ALTURA));
+        gabinete.adicionarComponenteEstrutural(new Lateral(PadraoDeFitagem.UMA_ALTURA));
+        gabinete.adicionarComponenteEstrutural(new Travessa(PadraoDeFitagem.UMA_ALTURA));
+        gabinete.adicionarComponenteEstrutural(new Travessa(PadraoDeFitagem.UMA_ALTURA));
+        gabinete.adicionarComponenteEstrutural(new Fundo(TipoFundo.ENCAIXADO, 6, 10, PadraoDeFitagem.NENHUM));
+        gabinete.adicionarComponenteEstrutural(new PrateleiraInterna(TipoPrateleira.FIXA,
+                18, PadraoDeFitagem.UMA_ALTURA));
+
+        gabinete.adicionarFechamento(
+                new Portas(
+                        TipoPorta.DUPLA,
+                        18,
+                        PadraoDeFitagem.QUATRO_LADOS,
+                        null
+                ));
 
         var mdfCaixa = new Mdf(
                 "MDF TX",
@@ -139,6 +143,15 @@ public class Main {
         );
         var puxador2 = new Puxador(
                 true,
+                Direcao.VERTICAL,
+                TipoPuxador.PUXADOR_PERFIL,
+                "Perfil Tipo C",
+                "Anodizado Fosco 35mm",
+                new DimensoesAcessorio(35, 0, 20),
+                25.00
+        );
+        var puxador3 = new Puxador(
+                true,
                 Direcao.HORIZONTAL,
                 TipoPuxador.PUXADOR_PERFIL,
                 "Perfil Tipo C",
@@ -146,18 +159,18 @@ public class Main {
                 new DimensoesAcessorio(35, 0, 20),
                 25.00
         );
-//
-//        gabinete.definirDimensoes(new Dimensoes(500, 800, 400, 15));
-//        gabinete.adicionarFerragem(ferragem, 4.0);
-//        gabinete.adicionarFerragem(dobradica, 6.0);
-//        gabinete.adicionarPuxador(puxador);
-//        gabinete.definirAcabamentosCaixa(List.of(mdfCaixa, fitaBordas));
-//        gabinete.definirAcabamentosFrente(List.of(mdfCaixa18, fitaBordas22));
-//        gabinete.definirAcabamentoCaixaEspecifico(Fundo.class, List.of(mdfFundo));
-//
-//
-//        var item = new Item(gabinete);
-//        System.out.println(item);
+
+        gabinete.definirDimensoes(new Dimensoes(500, 800, 400, 15));
+        gabinete.adicionarFerragem(ferragem, 4.0);
+        gabinete.adicionarFerragem(dobradica, 6.0);
+        gabinete.adicionarPuxador(puxador2);
+        gabinete.definirAcabamentosCaixa(List.of(mdfCaixa, fitaBordas));
+        gabinete.definirAcabamentosFrente(List.of(mdfCaixa18, fitaBordas22));
+        gabinete.definirAcabamentoCaixaEspecifico(Fundo.class, List.of(mdfFundo));
+
+
+        var item = new Item(gabinete);
+        System.out.println(item);
 
         /**
          * Gaveteiro
@@ -168,8 +181,8 @@ public class Main {
         gaveteiro.adicionarComponenteEstrutural(new Base(PadraoDeFitagem.UMA_ALTURA));
         gaveteiro.adicionarComponenteEstrutural(new Lateral(PadraoDeFitagem.UMA_ALTURA));
         gaveteiro.adicionarComponenteEstrutural(new Lateral(PadraoDeFitagem.UMA_ALTURA));
-        gaveteiro.adicionarComponenteEstrutural(new Travessa(75, PadraoDeFitagem.UMA_ALTURA));
-        gaveteiro.adicionarComponenteEstrutural(new Travessa(75, PadraoDeFitagem.UMA_ALTURA));
+        gaveteiro.adicionarComponenteEstrutural(new Travessa(PadraoDeFitagem.UMA_ALTURA));
+        gaveteiro.adicionarComponenteEstrutural(new Travessa(PadraoDeFitagem.UMA_ALTURA));
         gaveteiro.adicionarComponenteEstrutural(new Fundo(TipoFundo.ENCAIXADO, 6, 10, PadraoDeFitagem.NENHUM));
 
 
@@ -177,7 +190,7 @@ public class Main {
         frentes.add(120.0);
         frentes.add(155.0);
         frentes.add(155.0);
-//////        gavetas.add(155.0);
+//////        gavetas.add(155.0);'
 ////        //TODO: corrigir a calculo de gavetas de gavetas
         gaveteiro.adicionarFechamento(
                 new Gaveteiro(
@@ -194,7 +207,7 @@ public class Main {
         gaveteiro.definirAcabamentoCaixaEspecifico(FundoGaveta.class, List.of(mdfFundo));
         gaveteiro.adicionarFerragem(trilhos, 4.0);
         gaveteiro.adicionarFerragem(parafusoGaveta, 48.0);
-        gaveteiro.adicionarPuxador(puxador2);
+        gaveteiro.adicionarPuxador(puxador3);
         var item2 = new Item(gaveteiro);
         System.out.println(item2.toString());
     }

@@ -73,6 +73,12 @@ public class Portas extends AbstractComponenteFechamento{
     }
 
     @Override
+    public String getDescricaoCurta() {
+        this.descricao = "Porta " +  tipoPorta.toString() ;
+        return descricao;
+    }
+
+    @Override
     public Optional<Puxador> getPuxador() {
         return puxador;
     }

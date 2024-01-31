@@ -21,9 +21,7 @@ import componentes.fechamentos.Portas;
 public interface EstrategiaDeConstrucao {
     void aplicarParaBase(Base base, Dimensoes dimensoes, PadraoDeFitagem padraoDeFitagem);
 
-    void aplicarParaPrateleiraInterna(PrateleiraInterna prateleiraInterna, Dimensoes dimensoes,
-                                      PadraoDeFitagem padraoDeFitagem, TipoPrateleira tipoPrateleira,
-                                      Folgas folgas);
+    void aplicarParaPrateleiraInterna(PrateleiraInterna prateleiraInterna, Dimensoes dimensoes);
 
     void aplicarParaPortas(Portas portas, Dimensoes dimensoes);
 
