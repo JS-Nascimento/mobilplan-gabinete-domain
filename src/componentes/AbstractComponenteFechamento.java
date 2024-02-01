@@ -1,9 +1,9 @@
 package componentes;
 
 import estrategias.EstrategiaDeConstrucao;
-import java.util.Map;
 import java.util.Optional;
 import materiaPrima.acessorios.Puxador;
+import modelos.Gabinete;
 
 public abstract class AbstractComponenteFechamento extends AbstractComponente implements Fechamento {
 

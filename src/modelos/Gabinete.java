@@ -1,7 +1,11 @@
-package componentes;
+package modelos;
 
 import static materiaPrima.acabamento.Unidade.METRO_QUADRADO;
 
+import componentes.Componente;
+import componentes.Estrutural;
+import componentes.Fechamento;
+import componentes.PadraoDeFitagem;
 import componentes.config.Dimensoes;
 import componentes.estruturais.Caixa;
 import componentes.fechamentos.Gaveteiro;

@@ -1,9 +1,9 @@
 package estrategias;
 
-import componentes.Gabinete;
+import componentes.fechamentos.SemComponente;
+import modelos.Gabinete;
 import componentes.PadraoDeFitagem;
 import componentes.config.Dimensoes;
-import componentes.config.Folgas;
 import componentes.estruturais.Base;
 import componentes.estruturais.ContraFrenteGaveta;
 import componentes.estruturais.Fundo;
@@ -11,9 +11,8 @@ import componentes.estruturais.FundoGaveta;
 import componentes.estruturais.Lateral;
 import componentes.estruturais.LateralGaveta;
 import componentes.estruturais.PrateleiraInterna;
-import componentes.estruturais.TipoPrateleira;
 import componentes.estruturais.TraseiroGaveta;
-import componentes.estruturais.Travessa;
+import componentes.estruturais.TravessaHorizontal;
 import componentes.fechamentos.ComPuxador;
 import componentes.fechamentos.Gaveteiro;
 import componentes.fechamentos.Portas;
@@ -27,7 +26,7 @@ public interface EstrategiaDeConstrucao {
 
     void aplicarParaPuxador(ComPuxador fechamento, Dimensoes dimensoes, Gabinete gabinete);
 
-    void aplicarParaTravessa(Travessa travessa, Dimensoes dimensoes, PadraoDeFitagem padraoDeFitagem);
+    void aplicarParaTravessa(TravessaHorizontal travessaHorizontal, Dimensoes dimensoes, PadraoDeFitagem padraoDeFitagem);
 
     void aplicarParaFundo(Fundo fundo, Dimensoes dimensoes, double espessuraFundo,
                           double valorVariavel, PadraoDeFitagem padraoDeFitagem);
@@ -43,6 +42,5 @@ public interface EstrategiaDeConstrucao {
     void aplicarParaTraseiroGaveta(TraseiroGaveta traseiroGaveta, Dimensoes dimensoes, PadraoDeFitagem padraoDeFitagem);
 
     void aplicarParaGaveta(Gaveteiro gaveteiro, Dimensoes dimensoes);
-
 }
 

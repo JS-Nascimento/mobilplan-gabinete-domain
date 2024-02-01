@@ -1,6 +1,6 @@
 package proposta.item;
 
-import componentes.Gabinete;
+import modelos.Gabinete;
 import componentes.fechamentos.Gaveteiro;
 import componentes.fechamentos.Portas;
 import helpers.NumberHelper;
@@ -30,6 +30,10 @@ public class Item {
 
     public List<SubItem> subItems() {
         return subItems;
+    }
+
+    public double total() {
+        return total;
     }
 
     private void adicionarSubItens() {

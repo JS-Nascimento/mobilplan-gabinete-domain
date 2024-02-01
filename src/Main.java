@@ -1,11 +1,10 @@
 import static materiaPrima.acabamento.Unidade.PAR;
 import static materiaPrima.acabamento.Unidade.UNIDADE;
 
-import componentes.Gabinete;
 import componentes.PadraoDeFitagem;
+import componentes.config.ConfigFabricacao;
 import componentes.config.Dimensoes;
 import componentes.config.DimensoesAcessorio;
-import componentes.config.Folgas;
 import componentes.estruturais.Base;
 import componentes.estruturais.Fundo;
 import componentes.estruturais.FundoGaveta;
@@ -13,9 +12,10 @@ import componentes.estruturais.Lateral;
 import componentes.estruturais.PrateleiraInterna;
 import componentes.estruturais.TipoFundo;
 import componentes.estruturais.TipoPrateleira;
-import componentes.estruturais.Travessa;
+import componentes.estruturais.TravessaHorizontal;
 import componentes.fechamentos.Gaveteiro;
 import componentes.fechamentos.Portas;
+import componentes.fechamentos.SemComponente;
 import componentes.fechamentos.TipoFrente;
 import componentes.fechamentos.TipoPorta;
 import componentes.fechamentos.TipoPuxador;
@@ -29,25 +29,25 @@ import materiaPrima.acabamento.Mdf;
 import materiaPrima.acessorios.Direcao;
 import materiaPrima.acessorios.Ferragem;
 import materiaPrima.acessorios.Puxador;
-import modelos.Construcao;
-import modelos.GabineteModel;
+import modelos.Gabinete;
+import proposta.ambiente.Ambiente;
 import proposta.item.Item;
 
 public class Main {
     public static void main(String[] args) {
-        var novoGabinete = GabineteModel.create(Construcao.BaseEntreLaterais)
-                .build();
 
         Gabinete gabinete = new Gabinete(new BaseEntreLaterais());
 
-        gabinete.adicionarComponenteEstrutural(new Base(PadraoDeFitagem.UMA_ALTURA));
-        gabinete.adicionarComponenteEstrutural(new Lateral(PadraoDeFitagem.UMA_ALTURA));
-        gabinete.adicionarComponenteEstrutural(new Lateral(PadraoDeFitagem.UMA_ALTURA));
-        gabinete.adicionarComponenteEstrutural(new Travessa(PadraoDeFitagem.UMA_ALTURA));
-        gabinete.adicionarComponenteEstrutural(new Travessa(PadraoDeFitagem.UMA_ALTURA));
+        gabinete.adicionarComponenteEstrutural(new Base(ConfigFabricacao.PADRAO_ACABAMENTO_BASE));
+        gabinete.adicionarComponenteEstrutural(new Lateral(ConfigFabricacao.PADRAO_ACABAMENTO_LATERAL));
+        gabinete.adicionarComponenteEstrutural(new Lateral(ConfigFabricacao.PADRAO_ACABAMENTO_LATERAL));
+        gabinete.adicionarComponenteEstrutural(
+                new TravessaHorizontal(ConfigFabricacao.PADRAO_ACABAMENTO_TRAVESSA_HORIZONTAL));
+        gabinete.adicionarComponenteEstrutural(
+                new TravessaHorizontal(ConfigFabricacao.PADRAO_ACABAMENTO_TRAVESSA_HORIZONTAL));
         gabinete.adicionarComponenteEstrutural(new Fundo(TipoFundo.ENCAIXADO, 6, 10, PadraoDeFitagem.NENHUM));
         gabinete.adicionarComponenteEstrutural(new PrateleiraInterna(TipoPrateleira.FIXA,
-                18, PadraoDeFitagem.UMA_ALTURA));
+                18, ConfigFabricacao.PADRAO_ACABAMENTO_PRATELEIRA_INTERNA));
 
         gabinete.adicionarFechamento(
                 new Portas(
@@ -164,7 +164,7 @@ public class Main {
         gabinete.adicionarFerragem(ferragem, 4.0);
         gabinete.adicionarFerragem(dobradica, 6.0);
         gabinete.adicionarPuxador(puxador2);
-        gabinete.definirAcabamentosCaixa(List.of(mdfCaixa, fitaBordas));
+        gabinete.definirAcabamentosCaixa(List.of(mdfCaixa18Esp, fitaBordas));
         gabinete.definirAcabamentosFrente(List.of(mdfCaixa18, fitaBordas22));
         gabinete.definirAcabamentoCaixaEspecifico(Fundo.class, List.of(mdfFundo));
 
@@ -181,8 +181,8 @@ public class Main {
         gaveteiro.adicionarComponenteEstrutural(new Base(PadraoDeFitagem.UMA_ALTURA));
         gaveteiro.adicionarComponenteEstrutural(new Lateral(PadraoDeFitagem.UMA_ALTURA));
         gaveteiro.adicionarComponenteEstrutural(new Lateral(PadraoDeFitagem.UMA_ALTURA));
-        gaveteiro.adicionarComponenteEstrutural(new Travessa(PadraoDeFitagem.UMA_ALTURA));
-        gaveteiro.adicionarComponenteEstrutural(new Travessa(PadraoDeFitagem.UMA_ALTURA));
+        gaveteiro.adicionarComponenteEstrutural(new TravessaHorizontal(PadraoDeFitagem.UMA_ALTURA));
+        gaveteiro.adicionarComponenteEstrutural(new TravessaHorizontal(PadraoDeFitagem.UMA_ALTURA));
         gaveteiro.adicionarComponenteEstrutural(new Fundo(TipoFundo.ENCAIXADO, 6, 10, PadraoDeFitagem.NENHUM));
 
 
@@ -209,7 +209,41 @@ public class Main {
         gaveteiro.adicionarFerragem(parafusoGaveta, 48.0);
         gaveteiro.adicionarPuxador(puxador3);
         var item2 = new Item(gaveteiro);
-        System.out.println(item2.toString());
+        System.out.println(item2);
+
+
+        Gabinete gabineteSemFrente = new Gabinete(new BaseEntreLaterais());
+
+        gabineteSemFrente.adicionarComponenteEstrutural(new Base(ConfigFabricacao.PADRAO_ACABAMENTO_BASE));
+        gabineteSemFrente.adicionarComponenteEstrutural(new Base(ConfigFabricacao.PADRAO_ACABAMENTO_BASE));
+        gabineteSemFrente.adicionarComponenteEstrutural(new Lateral(ConfigFabricacao.PADRAO_ACABAMENTO_LATERAL));
+        gabineteSemFrente.adicionarComponenteEstrutural(new Lateral(ConfigFabricacao.PADRAO_ACABAMENTO_LATERAL));
+        gabineteSemFrente.adicionarComponenteEstrutural(new Fundo(TipoFundo.ENCAIXADO, 6, 10, PadraoDeFitagem.NENHUM));
+        gabineteSemFrente.adicionarComponenteEstrutural(new PrateleiraInterna(TipoPrateleira.FIXA,
+                18, ConfigFabricacao.PADRAO_ACABAMENTO_PRATELEIRA_INTERNA));
+
+        gabineteSemFrente.adicionarFechamento(
+                new SemComponente());
+
+
+        gabineteSemFrente.definirDimensoes(new Dimensoes(350, 800, 400, 15));
+        gabineteSemFrente.adicionarFerragem(ferragem, 4.0);
+        gabineteSemFrente.definirAcabamentosCaixa(List.of(mdfCaixa, fitaBordas));
+        gabineteSemFrente.definirAcabamentosFrente(List.of(mdfCaixa18, fitaBordas22));
+        gabineteSemFrente.definirAcabamentoCaixaEspecifico(Fundo.class, List.of(mdfFundo));
+
+        var item3 = new Item(gabineteSemFrente);
+        System.out.println(item3);
+
+        var itens = List.of(item, item2, item3);
+
+        var ambiente = new Ambiente(
+                "Cozinha",
+                "Cozinha com armarios",
+                "Cozinha com armarios",
+                itens);
+
+        System.out.println(ambiente);
     }
 
 }

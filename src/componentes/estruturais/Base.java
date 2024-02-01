@@ -1,6 +1,8 @@
 package componentes.estruturais;
 
+import static componentes.config.ConfigFabricacao.PADRAO_ACABAMENTO_BASE;
 import static helpers.FitaHelper.calcularMetragemFita;
+import static java.util.Objects.isNull;
 
 import componentes.AbstractComponente;
 import componentes.config.Dimensoes;

@@ -3,7 +3,7 @@ package componentes.fechamentos;
 import static helpers.FitaHelper.calcularMetragemFita;
 
 import componentes.AbstractComponenteFechamento;
-import componentes.Gabinete;
+import modelos.Gabinete;
 import componentes.PadraoDeFitagem;
 import componentes.config.Dimensoes;
 import componentes.config.Folgas;

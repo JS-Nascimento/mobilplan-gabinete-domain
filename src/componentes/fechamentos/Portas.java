@@ -1,7 +1,7 @@
 package componentes.fechamentos;
 
 import componentes.AbstractComponenteFechamento;
-import componentes.Gabinete;
+import modelos.Gabinete;
 import componentes.PadraoDeFitagem;
 import componentes.config.Dimensoes;
 import componentes.config.Folgas;

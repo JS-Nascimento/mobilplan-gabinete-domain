@@ -4,15 +4,14 @@ import static componentes.config.ConfigFabricacao.PROFUNDIDADE_TRAVESSA_HORIZONT
 import static helpers.FitaHelper.calcularMetragemFita;
 
 import componentes.AbstractComponente;
-import componentes.config.ConfigFabricacao;
 import componentes.config.Dimensoes;
 import componentes.PadraoDeFitagem;
 import estrategias.EstrategiaDeConstrucao;
 
-public class Travessa extends AbstractComponente {
+public class TravessaHorizontal extends AbstractComponente {
     private final double profundidadeEspecifica;
 
-    public Travessa(PadraoDeFitagem padraoDeFitagem) {
+    public TravessaHorizontal(PadraoDeFitagem padraoDeFitagem) {
         super(padraoDeFitagem);
         this.profundidadeEspecifica = PROFUNDIDADE_TRAVESSA_HORIZONTAL;
     }

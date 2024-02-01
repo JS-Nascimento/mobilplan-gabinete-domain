@@ -4,10 +4,9 @@ import static helpers.DescontosPadroes.descontoAlturaFrente;
 import static helpers.FechamentosHelper.calcularAlturasDasFrentes;
 import static helpers.FechamentosHelper.calcularPortas;
 
-import componentes.Gabinete;
+import modelos.Gabinete;
 import componentes.PadraoDeFitagem;
 import componentes.config.Dimensoes;
-import componentes.config.Folgas;
 import componentes.estruturais.Base;
 import componentes.estruturais.ContraFrenteGaveta;
 import componentes.estruturais.CorpoGaveta;
@@ -16,9 +15,8 @@ import componentes.estruturais.FundoGaveta;
 import componentes.estruturais.Lateral;
 import componentes.estruturais.LateralGaveta;
 import componentes.estruturais.PrateleiraInterna;
-import componentes.estruturais.TipoPrateleira;
 import componentes.estruturais.TraseiroGaveta;
-import componentes.estruturais.Travessa;
+import componentes.estruturais.TravessaHorizontal;
 import componentes.fechamentos.ComPuxador;
 import componentes.fechamentos.Gaveta;
 import componentes.fechamentos.Gaveteiro;
@@ -93,9 +91,9 @@ public class BaseSobreLaterais implements EstrategiaDeConstrucao {
 
 
     @Override
-    public void aplicarParaTravessa(Travessa travessa, Dimensoes dimensoes, PadraoDeFitagem padraoDeFitagem) {
+    public void aplicarParaTravessa(TravessaHorizontal travessaHorizontal, Dimensoes dimensoes, PadraoDeFitagem padraoDeFitagem) {
         double largura = dimensoes.getLargura();
-        travessa.setDimensoes(largura, dimensoes.getEspessura(), padraoDeFitagem);
+        travessaHorizontal.setDimensoes(largura, dimensoes.getEspessura(), padraoDeFitagem);
     }
 
     @Override
