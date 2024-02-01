@@ -36,6 +36,10 @@ public class Item {
         return total;
     }
 
+    public Gabinete gabinete() {
+        return gabinete;
+    }
+
     private void adicionarSubItens() {
         gabinete.caixa().componentes().forEach(componente -> {
             var subItem = new SubItem(componente, componente.getMateriasPrima());

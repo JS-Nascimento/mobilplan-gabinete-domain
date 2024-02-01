@@ -20,8 +20,10 @@ import componentes.fechamentos.TipoFrente;
 import componentes.fechamentos.TipoPorta;
 import componentes.fechamentos.TipoPuxador;
 import estrategias.BaseEntreLaterais;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import materiaPrima.acabamento.CalculaPorLado;
 import materiaPrima.acabamento.DimensoesChapa;
 import materiaPrima.acabamento.FitaDeBorda;
@@ -30,6 +32,7 @@ import materiaPrima.acessorios.Direcao;
 import materiaPrima.acessorios.Ferragem;
 import materiaPrima.acessorios.Puxador;
 import modelos.Gabinete;
+import proposta.Proposta;
 import proposta.ambiente.Ambiente;
 import proposta.item.Item;
 
@@ -236,6 +239,7 @@ public class Main {
         System.out.println(item3);
 
         var itens = List.of(item, item2, item3);
+        //var itens = new ArrayList<Item>();
 
         var ambiente = new Ambiente(
                 "Cozinha",
@@ -244,6 +248,35 @@ public class Main {
                 itens);
 
         System.out.println(ambiente);
+
+        var ambiente2 = new Ambiente(
+                "Sala",
+                "Home theater",
+                "Branco",
+                itens);
+
+        var ambiente3 = new Ambiente(
+                "Banheiro",
+                "Banheiro com armarios",
+                "Banheiro com armarios",
+                itens);
+
+        var ambiente4 = new Ambiente(
+                "Quarto",
+                "Quarto com armarios",
+                "Quarto com armarios",
+                itens);
+
+        var proposta = new Proposta(
+                LocalDate.now(),
+                UUID.randomUUID(),
+                "Proposta de Móveis",
+                "Casa de Jorge e Danusa",
+                30,
+                List.of(ambiente, ambiente2, ambiente3, ambiente4),
+                "Observação");
+
+        System.out.println(proposta);
     }
 
 }
